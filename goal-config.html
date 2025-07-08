@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent开发平台 - 目标配置</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -20,7 +22,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -115,14 +117,14 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .config-grid {
+        .config-sections {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 30px;
         }
 
-        .config-card {
+        .config-section {
             background: white;
             border-radius: 15px;
             padding: 25px;
@@ -130,157 +132,144 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .config-card h3 {
-            color: #2d3748;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+        .section-header-inner {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f7fafc;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #4a5568;
-            font-weight: 500;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .condition-list {
-            list-style: none;
-        }
-
-        .condition-item {
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
         }
 
-        .condition-text {
-            flex: 1;
-            color: #4a5568;
+        .goal-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
         }
 
-        .btn-remove {
-            background: #fed7d7;
-            color: #742a2a;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        .rules-icon {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
         }
 
-        .btn-remove:hover {
-            background: #feb2b2;
-        }
-
-        .btn-add {
-            background: #c6f6d5;
-            color: #22543d;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-add:hover {
-            background: #9ae6b4;
-        }
-
-        .constraint-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .constraint-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .constraint-title {
-            font-weight: 500;
+        .section-title-inner {
+            font-size: 1.4rem;
+            font-weight: 600;
             color: #2d3748;
         }
 
-        .constraint-desc {
+        .section-desc {
             color: #718096;
             font-size: 0.9rem;
         }
 
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 24px;
-            background: #cbd5e0;
-            border-radius: 12px;
+        .markdown-editor-container {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f7fafc;
+        }
+
+        .editor-toolbar {
+            background: #f7fafc;
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toolbar-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #4a5568;
         }
 
-        .toggle-switch.active {
+        .toolbar-btn:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .toolbar-btn.active {
             background: #667eea;
+            color: white;
+            border-color: #667eea;
         }
 
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
+        .word-count {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .preview-panel {
             background: white;
-            border-radius: 50%;
-            transition: all 0.3s ease;
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            min-height: 200px;
+            display: none;
         }
 
-        .toggle-switch.active::after {
-            transform: translateX(26px);
+        .preview-panel.active {
+            display: block;
+        }
+
+        .preview-panel h1, .preview-panel h2, .preview-panel h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .preview-panel p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .preview-panel ul, .preview-panel ol {
+            color: #4a5568;
+            margin-bottom: 10px;
+            padding-left: 20px;
+        }
+
+        .preview-panel code {
+            background: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e53e3e;
+        }
+
+        .preview-panel pre {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .preview-panel blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+            margin: 15px 0;
+            color: #718096;
+            font-style: italic;
         }
 
         .actions {
@@ -307,35 +296,52 @@
             border-color: #cbd5e0;
         }
 
-        .preview-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-        }
-
-        .preview-card h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .preview-content {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        .template-suggestions {
+            margin-top: 20px;
             padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .template-title {
+            font-weight: 600;
+            color: #2d3748;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .preview-label {
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .template-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .template-name {
             font-weight: 500;
-            margin-bottom: 8px;
-            opacity: 0.9;
+            color: #2d3748;
+            margin-bottom: 5px;
         }
 
-        .preview-text {
-            opacity: 0.8;
-            line-height: 1.6;
+        .template-desc {
+            color: #718096;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -346,18 +352,18 @@
                 <i class="fas fa-bullseye"></i>
                 目标配置
             </h1>
-            <p>定义Agent的主要目标、成功条件和约束条件</p>
+            <p>定义Agent的目标描述和规则设置</p>
         </div>
 
         <div class="nav-tabs">
             <a href="index.html" class="nav-tab">
                 <i class="fas fa-home"></i> 项目管理
             </a>
-            <a href="goal-config.html" class="nav-tab active">
-                <i class="fas fa-bullseye"></i> 目标配置
-            </a>
             <a href="capability-config.html" class="nav-tab">
                 <i class="fas fa-cogs"></i> 能力配置
+            </a>
+            <a href="goal-config.html" class="nav-tab active">
+                <i class="fas fa-bullseye"></i> 目标配置
             </a>
             <a href="test-debug.html" class="nav-tab">
                 <i class="fas fa-bug"></i> 测试调试
@@ -382,113 +388,105 @@
                 </button>
             </div>
 
-            <div class="config-grid">
-                <div class="config-card">
-                    <h3>
-                        <i class="fas fa-flag"></i>
-                        主要目标
-                    </h3>
-                    <div class="form-group">
-                        <label class="form-label">目标描述</label>
-                        <textarea class="form-input form-textarea" id="mainGoal" placeholder="描述Agent的主要目标和职责...">为开发团队提供智能代码审查服务，包括代码质量检查、安全漏洞检测、性能优化建议等，帮助提升代码质量和开发效率。</textarea>
-                    </div>
-                </div>
-
-                <div class="config-card">
-                    <h3>
-                        <i class="fas fa-check-circle"></i>
-                        成功条件
-                    </h3>
-                    <ul class="condition-list" id="successConditions">
-                        <li class="condition-item">
-                            <span class="condition-text">代码审查准确率 > 95%</span>
-                            <button class="btn-remove" onclick="removeCondition(this)">删除</button>
-                        </li>
-                        <li class="condition-item">
-                            <span class="condition-text">响应时间 < 5秒</span>
-                            <button class="btn-remove" onclick="removeCondition(this)">删除</button>
-                        </li>
-                        <li class="condition-item">
-                            <span class="condition-text">漏洞检出率 > 90%</span>
-                            <button class="btn-remove" onclick="removeCondition(this)">删除</button>
-                        </li>
-                        <li class="condition-item">
-                            <span class="condition-text">误报率 < 5%</span>
-                            <button class="btn-remove" onclick="removeCondition(this)">删除</button>
-                        </li>
-                    </ul>
-                    <div class="form-group">
-                        <input type="text" class="form-input" id="newCondition" placeholder="输入新的成功条件...">
-                        <button class="btn-add" onclick="addCondition()">
-                            <i class="fas fa-plus"></i>
-                            添加条件
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="config-card">
-                <h3>
-                    <i class="fas fa-shield-alt"></i>
-                    约束条件
-                </h3>
-                <div class="constraint-toggle" onclick="toggleConstraint(this)">
-                    <div class="constraint-info">
+            <div class="config-sections">
+                <!-- 目标描述部分 -->
+                <div class="config-section">
+                    <div class="section-header-inner">
+                        <div class="section-icon goal-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
                         <div>
-                            <div class="constraint-title">仅审查代码质量</div>
-                            <div class="constraint-desc">不涉及业务逻辑判断，仅关注代码质量</div>
+                            <div class="section-title-inner">目标描述</div>
+                            <div class="section-desc">使用Markdown描述Agent的主要目标</div>
                         </div>
                     </div>
-                    <div class="toggle-switch active"></div>
-                </div>
 
-                <div class="constraint-toggle" onclick="toggleConstraint(this)">
-                    <div class="constraint-info">
-                        <div>
-                            <div class="constraint-title">不修改代码</div>
-                            <div class="constraint-desc">只提供建议，不直接修改代码</div>
+                    <div class="markdown-editor-container">
+                        <div class="editor-toolbar">
+                            <div class="toolbar-left">
+                                <button class="toolbar-btn" onclick="togglePreview('goal')">
+                                    <i class="fas fa-eye"></i> 预览
+                                </button>
+                                <button class="toolbar-btn" onclick="insertTemplate('goal')">
+                                    <i class="fas fa-plus"></i> 模板
+                                </button>
+                            </div>
+                            <div class="word-count" id="goalWordCount">0 字</div>
+                        </div>
+                        <textarea id="goalEditor"></textarea>
+                        <div class="preview-panel" id="goalPreview"></div>
+                    </div>
+
+                    <div class="template-suggestions">
+                        <div class="template-title">
+                            <i class="fas fa-lightbulb"></i>
+                            目标描述模板
+                        </div>
+                        <div class="template-grid">
+                            <div class="template-item" onclick="loadGoalTemplate('code_review')">
+                                <div class="template-name">代码审查</div>
+                                <div class="template-desc">智能代码质量检查</div>
+                            </div>
+                            <div class="template-item" onclick="loadGoalTemplate('api_doc')">
+                                <div class="template-name">API文档</div>
+                                <div class="template-desc">自动生成API文档</div>
+                            </div>
+                            <div class="template-item" onclick="loadGoalTemplate('bug_analysis')">
+                                <div class="template-name">Bug分析</div>
+                                <div class="template-desc">智能Bug分析和修复建议</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="toggle-switch active"></div>
                 </div>
 
-                <div class="constraint-toggle" onclick="toggleConstraint(this)">
-                    <div class="constraint-info">
+                <!-- 规则设置部分 -->
+                <div class="config-section">
+                    <div class="section-header-inner">
+                        <div class="section-icon rules-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
                         <div>
-                            <div class="constraint-title">遵循编码规范</div>
-                            <div class="constraint-desc">基于公司编码规范和最佳实践</div>
+                            <div class="section-title-inner">规则设置</div>
+                            <div class="section-desc">使用Markdown定义Agent的行为规则</div>
                         </div>
                     </div>
-                    <div class="toggle-switch active"></div>
-                </div>
 
-                <div class="constraint-toggle" onclick="toggleConstraint(this)">
-                    <div class="constraint-info">
-                        <div>
-                            <div class="constraint-title">保护代码隐私</div>
-                            <div class="constraint-desc">不泄露敏感代码信息</div>
+                    <div class="markdown-editor-container">
+                        <div class="editor-toolbar">
+                            <div class="toolbar-left">
+                                <button class="toolbar-btn" onclick="togglePreview('rules')">
+                                    <i class="fas fa-eye"></i> 预览
+                                </button>
+                                <button class="toolbar-btn" onclick="insertTemplate('rules')">
+                                    <i class="fas fa-plus"></i> 模板
+                                </button>
+                            </div>
+                            <div class="word-count" id="rulesWordCount">0 字</div>
+                        </div>
+                        <textarea id="rulesEditor"></textarea>
+                        <div class="preview-panel" id="rulesPreview"></div>
+                    </div>
+
+                    <div class="template-suggestions">
+                        <div class="template-title">
+                            <i class="fas fa-lightbulb"></i>
+                            规则设置模板
+                        </div>
+                        <div class="template-grid">
+                            <div class="template-item" onclick="loadRulesTemplate('security')">
+                                <div class="template-name">安全规则</div>
+                                <div class="template-desc">安全相关的行为约束</div>
+                            </div>
+                            <div class="template-item" onclick="loadRulesTemplate('quality')">
+                                <div class="template-name">质量规则</div>
+                                <div class="template-desc">代码质量检查规则</div>
+                            </div>
+                            <div class="template-item" onclick="loadRulesTemplate('performance')">
+                                <div class="template-name">性能规则</div>
+                                <div class="template-desc">性能优化相关规则</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="toggle-switch active"></div>
-                </div>
-            </div>
-
-            <div class="preview-card">
-                <h3>
-                    <i class="fas fa-eye"></i>
-                    配置预览
-                </h3>
-                <div class="preview-content">
-                    <div class="preview-label">主要目标：</div>
-                    <div class="preview-text" id="previewGoal">为用户提供准确的产品咨询服务，包括产品特性、使用方法、常见问题解答等，确保用户获得满意的服务体验。</div>
-                </div>
-                <div class="preview-content">
-                    <div class="preview-label">成功条件：</div>
-                    <div class="preview-text" id="previewConditions">回答准确率 > 90%<br>响应时间 < 3秒<br>用户满意度 > 85%</div>
-                </div>
-                <div class="preview-content">
-                    <div class="preview-label">约束条件：</div>
-                    <div class="preview-text" id="previewConstraints">不能提供价格信息<br>不能承诺退换货</div>
                 </div>
             </div>
 
@@ -506,75 +504,361 @@
     </div>
 
     <script>
-        function addCondition() {
-            const input = document.getElementById('newCondition');
-            const text = input.value.trim();
-            if (text) {
-                const list = document.getElementById('successConditions');
-                const li = document.createElement('li');
-                li.className = 'condition-item';
-                li.innerHTML = `
-                    <span class="condition-text">${text}</span>
-                    <button class="btn-remove" onclick="removeCondition(this)">删除</button>
-                `;
-                list.appendChild(li);
-                input.value = '';
-                updatePreview();
+        let goalEditor, rulesEditor;
+        let goalPreviewActive = false;
+        let rulesPreviewActive = false;
+
+        // 初始化编辑器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 目标描述编辑器
+            goalEditor = new EasyMDE({
+                element: document.getElementById('goalEditor'),
+                placeholder: '在这里使用Markdown描述Agent的主要目标...',
+                spellChecker: false,
+                autosave: {
+                    enabled: true,
+                    delay: 1000,
+                    uniqueId: 'goal-editor'
+                },
+                toolbar: [
+                    'bold', 'italic', 'heading', '|',
+                    'quote', 'unordered-list', 'ordered-list', '|',
+                    'link', 'image', '|',
+                    'preview', 'side-by-side', 'fullscreen', '|',
+                    'guide'
+                ]
+            });
+
+            // 规则设置编辑器
+            rulesEditor = new EasyMDE({
+                element: document.getElementById('rulesEditor'),
+                placeholder: '在这里使用Markdown定义Agent的行为规则...',
+                spellChecker: false,
+                autosave: {
+                    enabled: true,
+                    delay: 1000,
+                    uniqueId: 'rules-editor'
+                },
+                toolbar: [
+                    'bold', 'italic', 'heading', '|',
+                    'quote', 'unordered-list', 'ordered-list', '|',
+                    'link', 'image', '|',
+                    'preview', 'side-by-side', 'fullscreen', '|',
+                    'guide'
+                ]
+            });
+
+            // 加载默认内容
+            loadDefaultContent();
+            
+            // 监听内容变化
+            goalEditor.codemirror.on('change', updateWordCount);
+            rulesEditor.codemirror.on('change', updateWordCount);
+        });
+
+        // 加载默认内容
+        function loadDefaultContent() {
+            const defaultGoal = `# 代码审查助手目标
+
+## 主要目标
+为开发团队提供智能代码审查服务，帮助提高代码质量和安全性。
+
+## 具体职责
+- **代码质量检查**：分析代码结构、可读性和最佳实践
+- **安全漏洞检测**：识别潜在的安全风险和漏洞
+- **性能优化建议**：提供性能改进建议
+- **规范遵循检查**：确保代码符合公司编码规范
+
+## 成功标准
+- 代码审查准确率 > 95%
+- 响应时间 < 5秒
+- 漏洞检出率 > 90%
+- 误报率 < 5%`;
+
+            const defaultRules = `# 代码审查助手规则
+
+## 行为约束
+- 仅审查代码质量，不涉及业务逻辑判断
+- 不直接修改代码，只提供改进建议
+- 遵循公司编码规范和最佳实践
+- 保护代码隐私，不泄露敏感信息
+
+## 审查范围
+- 代码结构和组织
+- 命名规范和可读性
+- 错误处理和异常管理
+- 性能优化机会
+- 安全漏洞和风险
+
+## 输出格式
+- 使用清晰的分类（安全、性能、质量）
+- 提供具体的改进建议
+- 包含代码示例和最佳实践
+- 按严重程度排序问题`;
+
+            goalEditor.value(defaultGoal);
+            rulesEditor.value(defaultRules);
+            updateWordCount();
+        }
+
+        // 更新字数统计
+        function updateWordCount() {
+            const goalText = goalEditor.value();
+            const rulesText = rulesEditor.value();
+            
+            document.getElementById('goalWordCount').textContent = `${goalText.length} 字`;
+            document.getElementById('rulesWordCount').textContent = `${rulesText.length} 字`;
+        }
+
+        // 切换预览模式
+        function togglePreview(type) {
+            if (type === 'goal') {
+                goalPreviewActive = !goalPreviewActive;
+                const preview = document.getElementById('goalPreview');
+                const btn = event.target.closest('.toolbar-btn');
+                
+                if (goalPreviewActive) {
+                    preview.classList.add('active');
+                    preview.innerHTML = marked.parse(goalEditor.value());
+                    btn.classList.add('active');
+                } else {
+                    preview.classList.remove('active');
+                    btn.classList.remove('active');
+                }
+            } else if (type === 'rules') {
+                rulesPreviewActive = !rulesPreviewActive;
+                const preview = document.getElementById('rulesPreview');
+                const btn = event.target.closest('.toolbar-btn');
+                
+                if (rulesPreviewActive) {
+                    preview.classList.add('active');
+                    preview.innerHTML = marked.parse(rulesEditor.value());
+                    btn.classList.add('active');
+                } else {
+                    preview.classList.remove('active');
+                    btn.classList.remove('active');
+                }
             }
         }
 
-        function removeCondition(button) {
-            button.parentElement.remove();
-            updatePreview();
+        // 插入模板
+        function insertTemplate(type) {
+            const templates = {
+                goal: {
+                    'code_review': `# 代码审查目标
+
+## 主要职责
+- 代码质量分析
+- 安全漏洞检测
+- 性能优化建议
+- 规范遵循检查`,
+                    'api_doc': `# API文档生成目标
+
+## 主要职责
+- 自动分析API代码
+- 生成完整文档
+- 提供使用示例
+- 维护文档更新`,
+                    'bug_analysis': `# Bug分析目标
+
+## 主要职责
+- 智能Bug检测
+- 根因分析
+- 修复建议
+- 预防措施`
+                },
+                rules: {
+                    'security': `# 安全规则
+
+## 安全约束
+- 不泄露敏感信息
+- 遵循安全最佳实践
+- 识别安全风险
+- 提供安全建议`,
+                    'quality': `# 质量规则
+
+## 质量约束
+- 遵循编码规范
+- 提高代码可读性
+- 优化代码结构
+- 减少技术债务`,
+                    'performance': `# 性能规则
+
+## 性能约束
+- 识别性能瓶颈
+- 提供优化建议
+- 考虑资源使用
+- 关注响应时间`
+                }
+            };
+
+            const templateType = prompt('请输入模板类型（如：code_review, security等）：');
+            if (templateType && templates[type][templateType]) {
+                if (type === 'goal') {
+                    goalEditor.value(templates[type][templateType]);
+                } else {
+                    rulesEditor.value(templates[type][templateType]);
+                }
+                updateWordCount();
+            }
         }
 
-        function toggleConstraint(element) {
-            const toggle = element.querySelector('.toggle-switch');
-            toggle.classList.toggle('active');
-            updatePreview();
+        // 加载目标模板
+        function loadGoalTemplate(template) {
+            const templates = {
+                'code_review': `# 代码审查助手目标
+
+## 主要目标
+为开发团队提供智能代码审查服务，帮助提高代码质量和安全性。
+
+## 具体职责
+- **代码质量检查**：分析代码结构、可读性和最佳实践
+- **安全漏洞检测**：识别潜在的安全风险和漏洞
+- **性能优化建议**：提供性能改进建议
+- **规范遵循检查**：确保代码符合公司编码规范
+
+## 成功标准
+- 代码审查准确率 > 95%
+- 响应时间 < 5秒
+- 漏洞检出率 > 90%
+- 误报率 < 5%`,
+                'api_doc': `# API文档生成器目标
+
+## 主要目标
+自动生成和维护高质量的API文档，提高开发效率。
+
+## 具体职责
+- **代码分析**：解析API代码结构和接口定义
+- **文档生成**：自动生成完整的API文档
+- **示例提供**：生成使用示例和最佳实践
+- **文档维护**：跟踪代码变更并更新文档
+
+## 成功标准
+- 文档覆盖率 > 98%
+- 生成速度 < 10秒
+- 文档准确性 > 95%
+- 示例实用性 > 90%`,
+                'bug_analysis': `# Bug分析助手目标
+
+## 主要目标
+智能分析Bug并提供有效的修复建议，提高问题解决效率。
+
+## 具体职责
+- **Bug检测**：自动识别代码中的潜在问题
+- **根因分析**：深入分析Bug的根本原因
+- **修复建议**：提供具体的修复方案
+- **预防措施**：建议预防类似问题的措施
+
+## 成功标准
+- Bug检出率 > 85%
+- 分析准确率 > 90%
+- 修复建议有效性 > 80%
+- 响应时间 < 8秒`
+            };
+
+            if (templates[template]) {
+                goalEditor.value(templates[template]);
+                updateWordCount();
+            }
         }
 
-        function updatePreview() {
-            const goal = document.getElementById('mainGoal').value;
-            document.getElementById('previewGoal').textContent = goal;
+        // 加载规则模板
+        function loadRulesTemplate(template) {
+            const templates = {
+                'security': `# 安全规则设置
 
-            const conditions = Array.from(document.querySelectorAll('.condition-text')).map(el => el.textContent);
-            document.getElementById('previewConditions').innerHTML = conditions.join('<br>');
+## 核心安全约束
+- **信息保护**：不泄露任何敏感信息或代码细节
+- **访问控制**：仅访问授权的代码仓库和资源
+- **安全扫描**：优先识别安全漏洞和风险
+- **最佳实践**：遵循安全编码最佳实践
 
-            const activeConstraints = Array.from(document.querySelectorAll('.constraint-toggle .toggle-switch.active'))
-                .map(toggle => toggle.parentElement.querySelector('.constraint-title').textContent);
-            document.getElementById('previewConstraints').innerHTML = activeConstraints.join('<br>');
+## 安全检查范围
+- SQL注入漏洞
+- XSS攻击风险
+- 敏感信息泄露
+- 权限控制问题
+- 加密使用不当
+
+## 安全输出要求
+- 按严重程度分类安全问题
+- 提供具体的修复建议
+- 包含安全最佳实践参考
+- 标记高危安全问题`,
+                'quality': `# 代码质量规则
+
+## 质量检查标准
+- **可读性**：代码清晰易懂，命名规范
+- **可维护性**：结构合理，易于修改和扩展
+- **可测试性**：便于单元测试和集成测试
+- **性能**：避免明显的性能问题
+
+## 检查项目
+- 代码结构和组织
+- 命名规范和一致性
+- 错误处理机制
+- 代码重复度
+- 复杂度控制
+
+## 质量输出格式
+- 按类别组织问题（结构、命名、错误处理等）
+- 提供具体的改进建议
+- 包含代码示例
+- 按重要性排序`,
+                'performance': `# 性能优化规则
+
+## 性能检查重点
+- **算法效率**：识别低效的算法和数据结构
+- **资源使用**：检查内存和CPU使用情况
+- **I/O操作**：优化文件读写和网络请求
+- **缓存策略**：建议合适的缓存机制
+
+## 性能指标
+- 响应时间优化
+- 内存使用效率
+- CPU使用率
+- 网络请求优化
+- 数据库查询优化
+
+## 性能建议格式
+- 明确性能瓶颈位置
+- 提供优化方案
+- 包含性能测试建议
+- 量化改进效果`
+            };
+
+            if (templates[template]) {
+                rulesEditor.value(templates[template]);
+                updateWordCount();
+            }
         }
 
+        // 保存配置
         function saveConfig() {
-            // 这里可以添加保存配置的逻辑
+            const config = {
+                goal: goalEditor.value(),
+                rules: rulesEditor.value(),
+                timestamp: new Date().toISOString()
+            };
+            
+            // 这里可以添加保存到后端的逻辑
+            console.log('保存配置:', config);
             alert('配置已保存！');
         }
 
+        // 重置配置
         function resetConfig() {
             if (confirm('确定要重置所有配置吗？')) {
-                document.getElementById('mainGoal').value = '';
-                document.getElementById('successConditions').innerHTML = '';
-                document.getElementById('newCondition').value = '';
-                Array.from(document.querySelectorAll('.toggle-switch')).forEach(toggle => {
-                    toggle.classList.remove('active');
-                });
-                updatePreview();
+                loadDefaultContent();
             }
         }
 
-        // 初始化预览
-        document.addEventListener('DOMContentLoaded', function() {
-            updatePreview();
-            
-            // 监听输入变化
-            document.getElementById('mainGoal').addEventListener('input', updatePreview);
-            document.getElementById('newCondition').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addCondition();
-                }
-            });
-        });
+        // 添加marked.js用于Markdown预览
+        if (typeof marked === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+            document.head.appendChild(script);
+        }
     </script>
 </body>
 </html> 

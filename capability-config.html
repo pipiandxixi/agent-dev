@@ -249,37 +249,6 @@
             color: #667eea;
         }
 
-        .rules-list {
-            list-style: none;
-            margin-bottom: 15px;
-        }
-
-        .rule-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .rule-content {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .rule-condition, .rule-action {
-            padding: 8px 12px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-        }
-
         .btn-remove {
             background: #fed7d7;
             color: #742a2a;
@@ -758,11 +727,11 @@
             <a href="index.html" class="nav-tab">
                 <i class="fas fa-home"></i> 项目管理
             </a>
-            <a href="goal-config.html" class="nav-tab">
-                <i class="fas fa-bullseye"></i> 目标配置
-            </a>
             <a href="capability-config.html" class="nav-tab active">
                 <i class="fas fa-cogs"></i> 能力配置
+            </a>
+            <a href="goal-config.html" class="nav-tab">
+                <i class="fas fa-bullseye"></i> 目标配置
             </a>
             <a href="test-debug.html" class="nav-tab">
                 <i class="fas fa-bug"></i> 测试调试
@@ -831,40 +800,7 @@
                         <textarea class="form-input form-textarea" id="systemPrompt" placeholder="输入系统提示词...">你是一个专业的代码审查助手，负责为开发团队提供智能代码审查服务。请基于代码质量、安全性、性能等方面进行分析，提供具体、可操作的改进建议。遵循公司编码规范，保护代码隐私。</textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">决策规则</label>
-                        <ul class="rules-list" id="decisionRules">
-                            <li class="rule-item">
-                                <div class="rule-content">
-                                    <div class="rule-condition">发现安全漏洞</div>
-                                    <div class="rule-action">标记为高危并通知</div>
-                                </div>
-                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
-                            </li>
-                            <li class="rule-item">
-                                <div class="rule-content">
-                                    <div class="rule-condition">性能问题</div>
-                                    <div class="rule-action">提供优化建议</div>
-                                </div>
-                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
-                            </li>
-                            <li class="rule-item">
-                                <div class="rule-content">
-                                    <div class="rule-condition">代码复杂度高</div>
-                                    <div class="rule-action">建议重构</div>
-                                </div>
-                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
-                            </li>
-                        </ul>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                            <input type="text" class="form-input" id="newCondition" placeholder="条件">
-                            <input type="text" class="form-input" id="newAction" placeholder="动作">
-                        </div>
-                        <button class="btn-add" onclick="addRule()">
-                            <i class="fas fa-plus"></i>
-                            添加规则
-                        </button>
-                    </div>
+
                 </div>
 
                 <!-- 感知模块 -->
@@ -1396,32 +1332,7 @@
             });
         });
 
-        // 规则管理
-        function addRule() {
-            const condition = document.getElementById('newCondition').value.trim();
-            const action = document.getElementById('newAction').value.trim();
-            
-            if (condition && action) {
-                const rulesList = document.getElementById('decisionRules');
-                const li = document.createElement('li');
-                li.className = 'rule-item';
-                li.innerHTML = `
-                    <div class="rule-content">
-                        <div class="rule-condition">${condition}</div>
-                        <div class="rule-action">${action}</div>
-                    </div>
-                    <button class="btn-remove" onclick="removeRule(this)">删除</button>
-                `;
-                rulesList.appendChild(li);
-                
-                document.getElementById('newCondition').value = '';
-                document.getElementById('newAction').value = '';
-            }
-        }
 
-        function removeRule(button) {
-            button.parentElement.remove();
-        }
 
         // API管理
         function addApi() {
@@ -1528,18 +1439,7 @@
             }
         }
 
-        // 回车键添加规则
-        document.getElementById('newCondition').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('newAction').focus();
-            }
-        });
 
-        document.getElementById('newAction').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addRule();
-            }
-        });
     </script>
 </body>
 </html> 

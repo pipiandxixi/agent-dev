@@ -6,6 +6,16 @@
 用户 → 项目管理 → 目标配置 → 能力配置 → 测试调试 → 部署运行
          ↓           ↓           ↓           ↓           ↓
     项目创建      目标设定      能力集成      功能验证      上线运行
+                    ↓
+              决策模块配置
+                    ↓
+              感知模块配置
+                    ↓
+              行动模块配置
+                    ↓
+            MCP工具市场选择
+                    ↓
+            公司FaaS函数选择
 ```
 
 ## 1. 🏠 项目管理页面
@@ -147,38 +157,216 @@
 ### 3.3 行动模块
 
 #### 核心功能
-- MCP工具集成
-- 外部API调用配置
+- MCP工具市场集成
+- 公司FaaS平台函数选择
 - 执行参数设置
 
 #### 交互形式
 ```
-[MCP工具] 复选框列表 → 选择启用的工具
-[API配置] 表单编辑 → 填写接口信息
+[MCP市场] 搜索筛选 → 分类标签 → 多选工具 → 配置管理
+[FaaS平台] 函数搜索 → 多选函数 → 运行时配置
 [执行设置] 参数调节 → 超时/重试配置
 ```
 
 #### 数据存储
 ```json
 {
-  "mcp_tools": ["filesystem", "database", "git", "code_analysis", "security_scan"],
-  "external_apis": [
-    {
-      "name": "Slack通知",
-      "url": "https://hooks.slack.com/services/xxx",
-      "auth": "webhook"
-    },
-    {
-      "name": "邮件通知",
-      "url": "https://api.sendgrid.com/v3/mail/send",
-      "auth": "bearer_token"
-    }
-  ],
+  "mcp_marketplace": {
+    "selected_tools": [
+      {
+        "name": "Git MCP",
+        "version": "v1.2.0",
+        "category": "development",
+        "description": "Git版本控制操作",
+        "config": {
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-git"],
+          "env": {
+            "GIT_REPO_PATH": "/path/to/repo"
+          }
+        }
+      },
+      {
+        "name": "Database MCP",
+        "version": "v2.1.0",
+        "category": "database",
+        "description": "数据库连接和操作",
+        "config": {
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-database"],
+          "env": {
+            "DATABASE_URL": "postgresql://localhost:5432/code_reviews"
+          }
+        }
+      },
+      {
+        "name": "Security Scanner",
+        "version": "v1.5.0",
+        "category": "security",
+        "description": "代码安全漏洞扫描",
+        "config": {
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-security"],
+          "env": {
+            "SCAN_LEVEL": "high"
+          }
+        }
+      }
+    ],
+    "available_categories": [
+      "development",
+      "database", 
+      "security",
+      "monitoring",
+      "communication"
+    ],
+    "search_keywords": ["git", "database", "security", "monitor", "notification"]
+  },
+  "faas_platform": {
+    "selected_functions": [
+      {
+        "name": "send-slack-notification",
+        "description": "发送Slack消息通知",
+        "runtime": "Node.js 18",
+        "category": "notification",
+        "endpoint": "https://faas.company.com/functions/send-slack-notification",
+        "auth": "service_account"
+      },
+      {
+        "name": "send-email",
+        "description": "发送邮件通知",
+        "runtime": "Python 3.9",
+        "category": "notification",
+        "endpoint": "https://faas.company.com/functions/send-email",
+        "auth": "service_account"
+      },
+      {
+        "name": "query-database",
+        "description": "执行数据库查询",
+        "runtime": "Python 3.9",
+        "category": "database",
+        "endpoint": "https://faas.company.com/functions/query-database",
+        "auth": "service_account"
+      },
+      {
+        "name": "generate-report",
+        "description": "生成分析报告",
+        "runtime": "Python 3.9",
+        "category": "analysis",
+        "endpoint": "https://faas.company.com/functions/generate-report",
+        "auth": "service_account"
+      }
+    ],
+    "available_functions": [
+      {
+        "name": "upload-file",
+        "description": "文件上传到云存储",
+        "runtime": "Node.js 18",
+        "category": "storage"
+      },
+      {
+        "name": "trigger-webhook",
+        "description": "触发外部webhook",
+        "runtime": "Node.js 18",
+        "category": "integration"
+      }
+    ]
+  },
   "execution_config": {
     "timeout": 60,
     "retry_count": 3,
     "max_file_size": "10MB",
-    "supported_languages": ["python", "javascript", "java", "go", "rust"]
+    "supported_languages": ["python", "javascript", "java", "go", "rust"],
+    "mcp_config_file": "mcp-servers.json",
+    "faas_timeout": 30,
+    "faas_retry_count": 2
+  }
+}
+```
+
+### 3.4 MCP工具市场
+
+#### 核心功能
+- MCP工具搜索和筛选
+- 分类标签管理
+- 多选工具配置
+- 配置文件管理
+
+#### 交互形式
+```
+[搜索框] 输入关键字 → 实时筛选结果
+[分类标签] 点击标签 → 按类别筛选
+[工具卡片] 显示信息 → 复选框选择 → 配置编辑
+[配置管理] 浏览文件 → 手动编辑 → 保存配置
+```
+
+#### 工具分类
+```json
+{
+  "categories": {
+    "development": {
+      "name": "开发工具",
+      "tools": ["Git MCP", "Code Analyzer", "File System", "Search Tool"]
+    },
+    "database": {
+      "name": "数据库",
+      "tools": ["Database MCP", "SQL Query", "Data Migration"]
+    },
+    "security": {
+      "name": "安全",
+      "tools": ["Security Scanner", "Vulnerability Check", "Code Audit"]
+    },
+    "monitoring": {
+      "name": "监控",
+      "tools": ["Performance Monitor", "Log Analyzer", "Metrics Collector"]
+    },
+    "communication": {
+      "name": "通信",
+      "tools": ["Slack Notifier", "Email Sender", "Webhook Trigger"]
+    }
+  }
+}
+```
+
+### 3.5 公司FaaS平台
+
+#### 核心功能
+- FaaS函数搜索
+- 多选函数配置
+- 运行时环境管理
+- 权限和认证配置
+
+#### 交互形式
+```
+[搜索框] 输入函数名 → 实时筛选结果
+[函数卡片] 显示信息 → 复选框选择 → 配置参数
+[运行时] 显示环境 → 版本信息 → 依赖管理
+```
+
+#### 函数分类
+```json
+{
+  "function_categories": {
+    "notification": {
+      "name": "通知服务",
+      "functions": ["send-slack-notification", "send-email", "send-sms"]
+    },
+    "database": {
+      "name": "数据库操作",
+      "functions": ["query-database", "update-record", "batch-process"]
+    },
+    "storage": {
+      "name": "文件存储",
+      "functions": ["upload-file", "download-file", "delete-file"]
+    },
+    "analysis": {
+      "name": "数据分析",
+      "functions": ["generate-report", "data-visualization", "statistics-calc"]
+    },
+    "integration": {
+      "name": "系统集成",
+      "functions": ["trigger-webhook", "api-gateway", "message-queue"]
+    }
   }
 }
 ```
@@ -206,12 +394,46 @@
     "input": "帮我检查这段代码有什么问题",
     "output": "发现3个安全问题，2个性能问题，1个代码质量问题...",
     "response_time": "4.2s",
-    "actions_used": ["code_analysis", "security_scan", "performance_check", "generate_report"],
+    "mcp_tools_used": [
+      {
+        "name": "Git MCP",
+        "action": "获取代码变更历史",
+        "duration": "0.8s"
+      },
+      {
+        "name": "Security Scanner",
+        "action": "扫描安全漏洞",
+        "duration": "1.2s"
+      },
+      {
+        "name": "Code Analyzer",
+        "action": "分析代码质量",
+        "duration": "0.9s"
+      }
+    ],
+    "faas_functions_called": [
+      {
+        "name": "send-slack-notification",
+        "action": "发送审查结果通知",
+        "status": "success",
+        "duration": "0.3s"
+      },
+      {
+        "name": "generate-report",
+        "action": "生成详细报告",
+        "status": "success",
+        "duration": "0.5s"
+      }
+    ],
     "issues_found": {
       "security": 3,
       "performance": 2,
       "quality": 1
-    }
+    },
+    "total_execution_time": "4.2s",
+    "mcp_execution_time": "2.9s",
+    "faas_execution_time": "0.8s",
+    "model_inference_time": "0.5s"
   }
 }
 ```
