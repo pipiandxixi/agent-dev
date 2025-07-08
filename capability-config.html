@@ -391,36 +391,6 @@
             color: #744210;
         }
 
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .tool-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tool-item:hover {
-            background: #edf2f7;
-            border-color: #cbd5e0;
-        }
-
-        .tool-item.selected {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
         .tool-checkbox {
             width: 18px;
             height: 18px;
@@ -479,6 +449,298 @@
         .btn-secondary:hover {
             background: #edf2f7;
             border-color: #cbd5e0;
+        }
+
+        /* MCP市场样式 */
+        .mcp-controls {
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-box .form-input {
+            padding-right: 40px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+            color: #718096;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tag:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .tag.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .mcp-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px;
+            background: #f7fafc;
+        }
+
+        .mcp-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .mcp-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mcp-item.hidden {
+            display: none;
+        }
+
+        .mcp-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .mcp-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .mcp-info {
+            flex: 1;
+        }
+
+        .mcp-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 2px;
+        }
+
+        .mcp-desc {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .mcp-version {
+            color: #a0aec0;
+            font-size: 0.8rem;
+        }
+
+        .mcp-checkbox {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .mcp-checkbox input {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e0;
+            border-radius: 4px;
+            background: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .mcp-checkbox input:checked + .checkmark {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .mcp-checkbox input:checked + .checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mcp-tags {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mcp-tag {
+            padding: 2px 8px;
+            background: #edf2f7;
+            color: #4a5568;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .mcp-config-section {
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .config-header h4 {
+            color: #2d3748;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .config-editor {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .config-editor .form-textarea {
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background: #f7fafc;
+        }
+
+        /* FaaS平台样式 */
+        .faas-search {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .faas-search .form-input {
+            padding-right: 40px;
+        }
+
+        .faas-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px;
+            background: #f7fafc;
+        }
+
+        .faas-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .faas-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .faas-item.hidden {
+            display: none;
+        }
+
+        .faas-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .faas-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .faas-info {
+            flex: 1;
+        }
+
+        .faas-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 2px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .faas-desc {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .faas-runtime {
+            color: #a0aec0;
+            font-size: 0.8rem;
+        }
+
+        .faas-checkbox {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .faas-tags {
+            display: flex;
+            gap: 6px;
+        }
+
+        .faas-tag {
+            padding: 2px 8px;
+            background: #e6fffa;
+            color: #22543d;
+            border-radius: 12px;
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -710,67 +972,322 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">MCP工具</label>
-                        <div class="tool-grid">
-                            <div class="tool-item selected">
-                                <input type="checkbox" class="tool-checkbox" checked>
-                                <i class="fas fa-folder"></i>
-                                <span>文件系统</span>
+                        <label class="form-label">MCP工具市场</label>
+                        
+                        <!-- 搜索和筛选 -->
+                        <div class="mcp-controls">
+                            <div class="search-box">
+                                <input type="text" class="form-input" id="mcpSearch" placeholder="搜索MCP工具..." onkeyup="filterMCPs()">
+                                <i class="fas fa-search search-icon"></i>
                             </div>
-                            <div class="tool-item selected">
-                                <input type="checkbox" class="tool-checkbox" checked>
-                                <i class="fas fa-database"></i>
-                                <span>数据库</span>
+                            <div class="category-tags">
+                                <span class="tag active" data-category="all" onclick="filterByCategory('all')">全部</span>
+                                <span class="tag" data-category="development" onclick="filterByCategory('development')">开发工具</span>
+                                <span class="tag" data-category="database" onclick="filterByCategory('database')">数据库</span>
+                                <span class="tag" data-category="security" onclick="filterByCategory('security')">安全</span>
+                                <span class="tag" data-category="monitoring" onclick="filterByCategory('monitoring')">监控</span>
+                                <span class="tag" data-category="communication" onclick="filterByCategory('communication')">通信</span>
                             </div>
-                            <div class="tool-item">
-                                <input type="checkbox" class="tool-checkbox">
-                                <i class="fab fa-git-alt"></i>
-                                <span>Git</span>
+                        </div>
+
+                        <!-- MCP工具列表 -->
+                        <div class="mcp-container">
+                            <div class="mcp-item" data-category="development" data-keywords="git version control code">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fab fa-git-alt"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Git MCP</div>
+                                        <div class="mcp-desc">Git版本控制操作</div>
+                                        <div class="mcp-version">v1.2.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">开发工具</span>
+                                    <span class="mcp-tag">版本控制</span>
+                                </div>
                             </div>
-                            <div class="tool-item">
-                                <input type="checkbox" class="tool-checkbox">
-                                <i class="fas fa-search"></i>
-                                <span>搜索</span>
+
+                            <div class="mcp-item" data-category="database" data-keywords="database mysql postgresql">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Database MCP</div>
+                                        <div class="mcp-desc">数据库连接和操作</div>
+                                        <div class="mcp-version">v2.1.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">数据库</span>
+                                    <span class="mcp-tag">SQL</span>
+                                </div>
                             </div>
-                            <div class="tool-item">
-                                <input type="checkbox" class="tool-checkbox">
-                                <i class="fas fa-calculator"></i>
-                                <span>计算器</span>
+
+                            <div class="mcp-item" data-category="security" data-keywords="security scan vulnerability">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Security Scanner</div>
+                                        <div class="mcp-desc">代码安全漏洞扫描</div>
+                                        <div class="mcp-version">v1.5.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">安全</span>
+                                    <span class="mcp-tag">漏洞扫描</span>
+                                </div>
                             </div>
-                            <div class="tool-item">
-                                <input type="checkbox" class="tool-checkbox">
-                                <i class="fas fa-globe"></i>
-                                <span>网络</span>
+
+                            <div class="mcp-item" data-category="monitoring" data-keywords="monitor performance metrics">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Performance Monitor</div>
+                                        <div class="mcp-desc">性能监控和指标收集</div>
+                                        <div class="mcp-version">v1.8.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">监控</span>
+                                    <span class="mcp-tag">性能</span>
+                                </div>
+                            </div>
+
+                            <div class="mcp-item" data-category="communication" data-keywords="slack notification message">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fab fa-slack"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Slack Notifier</div>
+                                        <div class="mcp-desc">Slack消息通知</div>
+                                        <div class="mcp-version">v1.3.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">通信</span>
+                                    <span class="mcp-tag">通知</span>
+                                </div>
+                            </div>
+
+                            <div class="mcp-item" data-category="development" data-keywords="code analysis review">
+                                <div class="mcp-header">
+                                    <div class="mcp-icon">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="mcp-info">
+                                        <div class="mcp-name">Code Analyzer</div>
+                                        <div class="mcp-desc">代码质量分析</div>
+                                        <div class="mcp-version">v2.0.0</div>
+                                    </div>
+                                    <label class="mcp-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="mcp-tags">
+                                    <span class="mcp-tag">开发工具</span>
+                                    <span class="mcp-tag">代码分析</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MCP配置管理 -->
+                        <div class="mcp-config-section">
+                            <div class="config-header">
+                                <h4>MCP配置文件</h4>
+                                <button class="btn-secondary" onclick="browseMCPConfig()">
+                                    <i class="fas fa-folder-open"></i>
+                                    浏览配置
+                                </button>
+                            </div>
+                            <div class="config-editor">
+                                <textarea class="form-input form-textarea" id="mcpConfig" placeholder="MCP配置文件内容...">{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "env": {
+        "GIT_REPO_PATH": "/path/to/repo"
+      }
+    },
+    "database": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-database"],
+      "env": {
+        "DATABASE_URL": "postgresql://localhost:5432/code_reviews"
+      }
+    }
+  }
+}</textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">外部API</label>
-                        <ul class="api-list" id="externalApiList">
-                            <li class="api-item">
-                                <div class="api-header">
-                                    <div class="api-name">Slack通知</div>
-                                    <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
-                                </div>
-                                <div class="api-url">https://hooks.slack.com/services/xxx</div>
-                            </li>
-                            <li class="api-item">
-                                <div class="api-header">
-                                    <div class="api-name">邮件通知</div>
-                                    <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
-                                </div>
-                                <div class="api-url">https://api.sendgrid.com/v3/mail/send</div>
-                            </li>
-                        </ul>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                            <input type="text" class="form-input" id="newExternalApiName" placeholder="API名称">
-                            <input type="text" class="form-input" id="newExternalApiUrl" placeholder="API地址">
+                        <label class="form-label">公司FaaS平台</label>
+                        
+                        <!-- 搜索框 -->
+                        <div class="faas-search">
+                            <input type="text" class="form-input" id="faasSearch" placeholder="搜索FaaS函数..." onkeyup="filterFaaS()">
+                            <i class="fas fa-search search-icon"></i>
                         </div>
-                        <button class="btn-add" onclick="addExternalApi()">
-                            <i class="fas fa-plus"></i>
-                            添加API
-                        </button>
+
+                        <!-- FaaS函数列表 -->
+                        <div class="faas-container">
+                            <div class="faas-item" data-keywords="notification slack message">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fab fa-slack"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">send-slack-notification</div>
+                                        <div class="faas-desc">发送Slack消息通知</div>
+                                        <div class="faas-runtime">Node.js 18</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">通知</span>
+                                    <span class="faas-tag">通信</span>
+                                </div>
+                            </div>
+
+                            <div class="faas-item" data-keywords="email send mail">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">send-email</div>
+                                        <div class="faas-desc">发送邮件通知</div>
+                                        <div class="faas-runtime">Python 3.9</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">通知</span>
+                                    <span class="faas-tag">邮件</span>
+                                </div>
+                            </div>
+
+                            <div class="faas-item" data-keywords="database query sql">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">query-database</div>
+                                        <div class="faas-desc">执行数据库查询</div>
+                                        <div class="faas-runtime">Python 3.9</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">数据库</span>
+                                    <span class="faas-tag">查询</span>
+                                </div>
+                            </div>
+
+                            <div class="faas-item" data-keywords="file upload storage">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">upload-file</div>
+                                        <div class="faas-desc">文件上传到云存储</div>
+                                        <div class="faas-runtime">Node.js 18</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">文件</span>
+                                    <span class="faas-tag">存储</span>
+                                </div>
+                            </div>
+
+                            <div class="faas-item" data-keywords="log analysis report">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">generate-report</div>
+                                        <div class="faas-desc">生成分析报告</div>
+                                        <div class="faas-runtime">Python 3.9</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">报告</span>
+                                    <span class="faas-tag">分析</span>
+                                </div>
+                            </div>
+
+                            <div class="faas-item" data-keywords="webhook trigger">
+                                <div class="faas-header">
+                                    <div class="faas-icon">
+                                        <i class="fas fa-link"></i>
+                                    </div>
+                                    <div class="faas-info">
+                                        <div class="faas-name">trigger-webhook</div>
+                                        <div class="faas-desc">触发外部webhook</div>
+                                        <div class="faas-runtime">Node.js 18</div>
+                                    </div>
+                                    <label class="faas-checkbox">
+                                        <input type="checkbox" class="tool-checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="faas-tags">
+                                    <span class="faas-tag">webhook</span>
+                                    <span class="faas-tag">集成</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -851,12 +1368,31 @@
             handleFileUpload({ target: { files: files } });
         });
 
-        // 工具选择
-        document.querySelectorAll('.tool-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const checkbox = this.querySelector('.tool-checkbox');
-                checkbox.checked = !checkbox.checked;
-                this.classList.toggle('selected');
+        // MCP工具选择
+        document.querySelectorAll('.mcp-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const mcpItem = this.closest('.mcp-item');
+                if (this.checked) {
+                    mcpItem.style.borderColor = '#667eea';
+                    mcpItem.style.backgroundColor = '#f7fafc';
+                } else {
+                    mcpItem.style.borderColor = '#e2e8f0';
+                    mcpItem.style.backgroundColor = 'white';
+                }
+            });
+        });
+
+        // FaaS函数选择
+        document.querySelectorAll('.faas-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const faasItem = this.closest('.faas-item');
+                if (this.checked) {
+                    faasItem.style.borderColor = '#4facfe';
+                    faasItem.style.backgroundColor = '#f7fafc';
+                } else {
+                    faasItem.style.borderColor = '#e2e8f0';
+                    faasItem.style.backgroundColor = 'white';
+                }
             });
         });
 
@@ -914,30 +1450,71 @@
             button.parentElement.parentElement.remove();
         }
 
+        // 移除旧的API管理函数，因为现在使用FaaS平台
         function addExternalApi() {
-            const name = document.getElementById('newExternalApiName').value.trim();
-            const url = document.getElementById('newExternalApiUrl').value.trim();
-            
-            if (name && url) {
-                const apiList = document.getElementById('externalApiList');
-                const li = document.createElement('li');
-                li.className = 'api-item';
-                li.innerHTML = `
-                    <div class="api-header">
-                        <div class="api-name">${name}</div>
-                        <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
-                    </div>
-                    <div class="api-url">${url}</div>
-                `;
-                apiList.appendChild(li);
-                
-                document.getElementById('newExternalApiName').value = '';
-                document.getElementById('newExternalApiUrl').value = '';
-            }
+            // 已废弃 - 现在使用FaaS平台
         }
 
         function removeExternalApi(button) {
-            button.parentElement.parentElement.remove();
+            // 已废弃 - 现在使用FaaS平台
+        }
+
+        // MCP搜索和筛选功能
+        function filterMCPs() {
+            const searchTerm = document.getElementById('mcpSearch').value.toLowerCase();
+            const activeCategory = document.querySelector('.tag.active').dataset.category;
+            const mcpItems = document.querySelectorAll('.mcp-item');
+            
+            mcpItems.forEach(item => {
+                const keywords = item.dataset.keywords.toLowerCase();
+                const category = item.dataset.category;
+                const matchesSearch = keywords.includes(searchTerm) || 
+                                    item.querySelector('.mcp-name').textContent.toLowerCase().includes(searchTerm) ||
+                                    item.querySelector('.mcp-desc').textContent.toLowerCase().includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+                
+                if (matchesSearch && matchesCategory) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterByCategory(category) {
+            // 更新标签状态
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // 重新筛选
+            filterMCPs();
+        }
+
+        // FaaS搜索功能
+        function filterFaaS() {
+            const searchTerm = document.getElementById('faasSearch').value.toLowerCase();
+            const faasItems = document.querySelectorAll('.faas-item');
+            
+            faasItems.forEach(item => {
+                const keywords = item.dataset.keywords.toLowerCase();
+                const matchesSearch = keywords.includes(searchTerm) || 
+                                    item.querySelector('.faas-name').textContent.toLowerCase().includes(searchTerm) ||
+                                    item.querySelector('.faas-desc').textContent.toLowerCase().includes(searchTerm);
+                
+                if (matchesSearch) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // MCP配置浏览功能
+        function browseMCPConfig() {
+            // 这里可以集成文件浏览器或显示配置选择对话框
+            alert('MCP配置文件浏览器功能 - 可以集成文件选择器或显示配置模板');
         }
 
         // 保存和重置
