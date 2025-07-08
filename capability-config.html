@@ -566,7 +566,7 @@
 
                     <div class="form-group">
                         <label class="form-label">系统提示词</label>
-                        <textarea class="form-input form-textarea" id="systemPrompt" placeholder="输入系统提示词...">你是一个专业的客服助手，负责为用户提供准确的产品咨询服务。请保持友好、专业的语气，确保回答准确且有帮助。</textarea>
+                        <textarea class="form-input form-textarea" id="systemPrompt" placeholder="输入系统提示词...">你是一个专业的代码审查助手，负责为开发团队提供智能代码审查服务。请基于代码质量、安全性、性能等方面进行分析，提供具体、可操作的改进建议。遵循公司编码规范，保护代码隐私。</textarea>
                     </div>
 
                     <div class="form-group">
@@ -574,15 +574,22 @@
                         <ul class="rules-list" id="decisionRules">
                             <li class="rule-item">
                                 <div class="rule-content">
-                                    <div class="rule-condition">用户询问价格</div>
-                                    <div class="rule-action">转人工客服</div>
+                                    <div class="rule-condition">发现安全漏洞</div>
+                                    <div class="rule-action">标记为高危并通知</div>
                                 </div>
                                 <button class="btn-remove" onclick="removeRule(this)">删除</button>
                             </li>
                             <li class="rule-item">
                                 <div class="rule-content">
-                                    <div class="rule-condition">用户情绪激动</div>
-                                    <div class="rule-action">安抚并转人工</div>
+                                    <div class="rule-condition">性能问题</div>
+                                    <div class="rule-action">提供优化建议</div>
+                                </div>
+                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-content">
+                                    <div class="rule-condition">代码复杂度高</div>
+                                    <div class="rule-action">建议重构</div>
                                 </div>
                                 <button class="btn-remove" onclick="removeRule(this)">删除</button>
                             </li>
@@ -623,13 +630,18 @@
                         
                         <div class="file-list" id="fileList">
                             <div class="file-item">
-                                <i class="fas fa-file-pdf file-icon"></i>
-                                <span class="file-name">产品手册.pdf</span>
+                                <i class="fas fa-file-code file-icon"></i>
+                                <span class="file-name">编码规范.md</span>
                                 <span class="file-status status-processed">已处理</span>
                             </div>
                             <div class="file-item">
-                                <i class="fas fa-file-word file-icon"></i>
-                                <span class="file-name">FAQ文档.docx</span>
+                                <i class="fas fa-file-code file-icon"></i>
+                                <span class="file-name">安全指南.pdf</span>
+                                <span class="file-status status-processed">已处理</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fas fa-file-code file-icon"></i>
+                                <span class="file-name">最佳实践.docx</span>
                                 <span class="file-status status-processing">处理中</span>
                             </div>
                         </div>
@@ -654,17 +666,24 @@
                         <ul class="api-list" id="apiList">
                             <li class="api-item">
                                 <div class="api-header">
-                                    <div class="api-name">库存查询</div>
+                                    <div class="api-name">GitLab API</div>
                                     <button class="btn-remove" onclick="removeApi(this)">删除</button>
                                 </div>
-                                <div class="api-url">https://api.inventory.com/stock</div>
+                                <div class="api-url">https://gitlab.company.com/api/v4</div>
                             </li>
                             <li class="api-item">
                                 <div class="api-header">
-                                    <div class="api-name">用户信息</div>
+                                    <div class="api-name">SonarQube API</div>
                                     <button class="btn-remove" onclick="removeApi(this)">删除</button>
                                 </div>
-                                <div class="api-url">https://api.users.com/profile</div>
+                                <div class="api-url">https://sonar.company.com/api</div>
+                            </li>
+                            <li class="api-item">
+                                <div class="api-header">
+                                    <div class="api-name">Jira API</div>
+                                    <button class="btn-remove" onclick="removeApi(this)">删除</button>
+                                </div>
+                                <div class="api-url">https://jira.company.com/rest/api/2</div>
                             </li>
                         </ul>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
@@ -731,7 +750,14 @@
                         <ul class="api-list" id="externalApiList">
                             <li class="api-item">
                                 <div class="api-header">
-                                    <div class="api-name">发送邮件</div>
+                                    <div class="api-name">Slack通知</div>
+                                    <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
+                                </div>
+                                <div class="api-url">https://hooks.slack.com/services/xxx</div>
+                            </li>
+                            <li class="api-item">
+                                <div class="api-header">
+                                    <div class="api-name">邮件通知</div>
                                     <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
                                 </div>
                                 <div class="api-url">https://api.sendgrid.com/v3/mail/send</div>

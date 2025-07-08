@@ -564,9 +564,10 @@
                         <label class="filter-label">Agent:</label>
                         <select class="filter-select" id="agentFilter">
                             <option value="all">全部Agent</option>
-                            <option value="customer_service">客服助手</option>
-                            <option value="data_analysis">数据分析助手</option>
-                            <option value="document_assistant">文档助手</option>
+                            <option value="code_review">代码审查助手</option>
+                            <option value="api_doc">API文档生成器</option>
+                            <option value="bug_analysis">Bug分析助手</option>
+                            <option value="performance_monitor">性能监控助手</option>
                         </select>
                     </div>
                     
@@ -602,17 +603,17 @@
                 <div class="stat-card">
                     <div class="stat-header">
                         <div class="stat-icon icon-blue">
-                            <i class="fas fa-exchange-alt"></i>
+                            <i class="fas fa-code"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>总请求数</h3>
-                            <p>所有Agent的请求总数</p>
+                            <h3>代码审查数</h3>
+                            <p>所有Agent的代码审查总数</p>
                         </div>
                     </div>
-                    <div class="stat-value" id="totalRequests">12,450</div>
+                    <div class="stat-value" id="totalRequests">16,420</div>
                     <div class="stat-change change-positive">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+15.3%</span>
+                        <span>+18.5%</span>
                         <span>较上周</span>
                     </div>
                     <div class="mini-chart">
@@ -636,13 +637,13 @@
                         </div>
                         <div class="stat-info">
                             <h3>平均响应时间</h3>
-                            <p>所有请求的平均响应时间</p>
+                            <p>代码审查的平均响应时间</p>
                         </div>
                     </div>
-                    <div class="stat-value" id="avgResponseTime">1.8s</div>
+                    <div class="stat-value" id="avgResponseTime">3.2s</div>
                     <div class="stat-change change-negative">
                         <i class="fas fa-arrow-down"></i>
-                        <span>-0.3s</span>
+                        <span>-0.8s</span>
                         <span>较上周</span>
                     </div>
                     <div class="mini-chart">
@@ -662,29 +663,29 @@
                 <div class="stat-card">
                     <div class="stat-header">
                         <div class="stat-icon icon-orange">
-                            <i class="fas fa-percentage"></i>
+                            <i class="fas fa-shield-alt"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>成功率</h3>
-                            <p>成功处理的请求比例</p>
+                            <h3>问题检出率</h3>
+                            <p>成功检出代码问题的比例</p>
                         </div>
                     </div>
-                    <div class="stat-value" id="successRate">98.5%</div>
+                    <div class="stat-value" id="successRate">94.2%</div>
                     <div class="stat-change change-positive">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+0.5%</span>
+                        <span>+2.1%</span>
                         <span>较上周</span>
                     </div>
                     <div class="mini-chart">
                         <div class="chart-line"></div>
                         <div class="chart-points">
-                            <div class="chart-point" style="left: 10%; bottom: 95%;"></div>
-                            <div class="chart-point" style="left: 25%; bottom: 97%;"></div>
-                            <div class="chart-point" style="left: 40%; bottom: 96%;"></div>
-                            <div class="chart-point" style="left: 55%; bottom: 98%;"></div>
-                            <div class="chart-point" style="left: 70%; bottom: 97%;"></div>
-                            <div class="chart-point" style="left: 85%; bottom: 99%;"></div>
-                            <div class="chart-point" style="left: 95%; bottom: 98%;"></div>
+                            <div class="chart-point" style="left: 10%; bottom: 85%;"></div>
+                            <div class="chart-point" style="left: 25%; bottom: 87%;"></div>
+                            <div class="chart-point" style="left: 40%; bottom: 86%;"></div>
+                            <div class="chart-point" style="left: 55%; bottom: 88%;"></div>
+                            <div class="chart-point" style="left: 70%; bottom: 87%;"></div>
+                            <div class="chart-point" style="left: 85%; bottom: 89%;"></div>
+                            <div class="chart-point" style="left: 95%; bottom: 88%;"></div>
                         </div>
                     </div>
                 </div>
@@ -695,14 +696,14 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>活跃用户</h3>
-                            <p>使用Agent的独立用户数</p>
+                            <h3>活跃开发者</h3>
+                            <p>使用Agent的独立开发者数</p>
                         </div>
                     </div>
-                    <div class="stat-value" id="activeUsers">1,250</div>
+                    <div class="stat-value" id="activeUsers">156</div>
                     <div class="stat-change change-positive">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+8.2%</span>
+                        <span>+12.5%</span>
                         <span>较上周</span>
                     </div>
                     <div class="mini-chart">
@@ -782,26 +783,26 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>客服助手</td>
+                                <td>代码审查助手</td>
                                 <td><span class="status-badge status-active">运行中</span></td>
-                                <td>5,230</td>
-                                <td>1.5s</td>
-                                <td>99.2%</td>
+                                <td>8,450</td>
+                                <td>4.2s</td>
+                                <td>99.5%</td>
                                 <td>42</td>
                                 <td>
                                     <div class="trend-indicator trend-up">
                                         <i class="fas fa-arrow-up"></i>
-                                        <span>+12%</span>
+                                        <span>+15%</span>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>数据分析助手</td>
+                                <td>API文档生成器</td>
                                 <td><span class="status-badge status-active">运行中</span></td>
                                 <td>3,890</td>
                                 <td>2.1s</td>
-                                <td>97.8%</td>
-                                <td>87</td>
+                                <td>98.8%</td>
+                                <td>47</td>
                                 <td>
                                     <div class="trend-indicator trend-up">
                                         <i class="fas fa-arrow-up"></i>
@@ -810,16 +811,30 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>文档助手</td>
-                                <td><span class="status-badge status-active">运行中</span></td>
-                                <td>3,330</td>
-                                <td>1.9s</td>
-                                <td>98.5%</td>
-                                <td>50</td>
+                                <td>Bug分析助手</td>
+                                <td><span class="status-badge status-draft">草稿</span></td>
+                                <td>1,230</td>
+                                <td>3.5s</td>
+                                <td>96.2%</td>
+                                <td>47</td>
                                 <td>
                                     <div class="trend-indicator trend-stable">
                                         <i class="fas fa-minus"></i>
                                         <span>0%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>性能监控助手</td>
+                                <td><span class="status-badge status-active">运行中</span></td>
+                                <td>2,850</td>
+                                <td>1.8s</td>
+                                <td>99.1%</td>
+                                <td>26</td>
+                                <td>
+                                    <div class="trend-indicator trend-up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+12%</span>
                                     </div>
                                 </td>
                             </tr>

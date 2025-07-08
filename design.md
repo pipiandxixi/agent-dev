@@ -26,8 +26,8 @@
 ```json
 {
   "project_id": "agent_001",
-  "name": "客服助手",
-  "template": "customer_service",
+  "name": "代码审查助手",
+  "template": "code_review",
   "created_at": "2024-01-01",
   "status": "active"
 }
@@ -52,14 +52,18 @@
 ### 数据存储
 ```json
 {
-  "main_goal": "为用户提供准确的产品咨询服务",
+  "main_goal": "为开发团队提供智能代码审查服务",
   "success_conditions": [
-    "回答准确率>90%",
-    "响应时间<3秒"
+    "代码审查准确率>95%",
+    "响应时间<5秒",
+    "漏洞检出率>90%",
+    "误报率<5%"
   ],
   "constraints": [
-    "不能提供价格信息",
-    "不能承诺退换货"
+    "仅审查代码质量，不涉及业务逻辑",
+    "不直接修改代码，只提供建议",
+    "遵循公司编码规范",
+    "保护代码隐私"
   ]
 }
 ```
@@ -87,13 +91,21 @@
 ```json
 {
   "model": "gpt-4",
-  "temperature": 0.7,
-  "max_tokens": 1000,
-  "system_prompt": "你是一个专业的客服助手",
+  "temperature": 0.3,
+  "max_tokens": 2000,
+  "system_prompt": "你是一个专业的代码审查助手，负责分析代码质量、安全性和性能问题",
   "rules": [
     {
-      "condition": "用户询问价格",
-      "action": "转人工客服"
+      "condition": "发现安全漏洞",
+      "action": "标记为高危并通知"
+    },
+    {
+      "condition": "性能问题",
+      "action": "提供优化建议"
+    },
+    {
+      "condition": "代码复杂度高",
+      "action": "建议重构"
     }
   ]
 }
@@ -117,13 +129,17 @@
 ```json
 {
   "documents": [
-    {"name": "产品手册.pdf", "type": "pdf", "status": "processed"}
+    {"name": "编码规范.md", "type": "markdown", "status": "processed"},
+    {"name": "安全指南.pdf", "type": "pdf", "status": "processed"},
+    {"name": "最佳实践.docx", "type": "docx", "status": "processing"}
   ],
   "databases": [
-    {"type": "mysql", "host": "localhost", "database": "products"}
+    {"type": "postgresql", "host": "code-db.company.com", "database": "code_reviews"}
   ],
   "apis": [
-    {"name": "库存查询", "url": "https://api.inventory.com/stock"}
+    {"name": "GitLab API", "url": "https://gitlab.company.com/api/v4"},
+    {"name": "SonarQube API", "url": "https://sonar.company.com/api"},
+    {"name": "Jira API", "url": "https://jira.company.com/rest/api/2"}
   ]
 }
 ```
@@ -145,17 +161,24 @@
 #### 数据存储
 ```json
 {
-  "mcp_tools": ["filesystem", "database", "git"],
+  "mcp_tools": ["filesystem", "database", "git", "code_analysis", "security_scan"],
   "external_apis": [
     {
-      "name": "发送邮件",
+      "name": "Slack通知",
+      "url": "https://hooks.slack.com/services/xxx",
+      "auth": "webhook"
+    },
+    {
+      "name": "邮件通知",
       "url": "https://api.sendgrid.com/v3/mail/send",
       "auth": "bearer_token"
     }
   ],
   "execution_config": {
-    "timeout": 30,
-    "retry_count": 3
+    "timeout": 60,
+    "retry_count": 3,
+    "max_file_size": "10MB",
+    "supported_languages": ["python", "javascript", "java", "go", "rust"]
   }
 }
 ```
@@ -180,10 +203,15 @@
 ```json
 {
   "test_session": {
-    "input": "这个产品怎么样？",
-    "output": "这是一款优质的产品...",
-    "response_time": "2.3s",
-    "actions_used": ["search_knowledge", "format_response"]
+    "input": "帮我检查这段代码有什么问题",
+    "output": "发现3个安全问题，2个性能问题，1个代码质量问题...",
+    "response_time": "4.2s",
+    "actions_used": ["code_analysis", "security_scan", "performance_check", "generate_report"],
+    "issues_found": {
+      "security": 3,
+      "performance": 2,
+      "quality": 1
+    }
   }
 }
 ```
@@ -209,9 +237,12 @@
 {
   "deployment_status": "running",
   "uptime": "2h 15m",
-  "request_count": 1250,
-  "avg_response_time": "1.8s",
-  "error_rate": "0.5%"
+  "request_count": 2847,
+  "avg_response_time": "3.2s",
+  "error_rate": "0.8%",
+  "code_reviews_completed": 156,
+  "issues_detected": 89,
+  "security_vulnerabilities": 12
 }
 ```
 
@@ -235,10 +266,16 @@
 ```json
 {
   "daily_stats": {
-    "total_requests": 500,
-    "successful_requests": 485,
-    "avg_response_time": 1.9,
-    "top_intents": ["产品咨询", "售后服务"]
+    "total_requests": 2847,
+    "successful_requests": 2812,
+    "avg_response_time": 3.2,
+    "code_reviews_completed": 156,
+    "issues_detected": 89,
+    "security_vulnerabilities": 12,
+    "performance_issues": 23,
+    "code_quality_issues": 54,
+    "top_languages": ["javascript", "python", "java"],
+    "top_repositories": ["frontend-app", "backend-api", "mobile-app"]
   }
 }
 ```

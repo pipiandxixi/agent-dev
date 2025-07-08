@@ -390,7 +390,7 @@
                     </h3>
                     <div class="form-group">
                         <label class="form-label">目标描述</label>
-                        <textarea class="form-input form-textarea" id="mainGoal" placeholder="描述Agent的主要目标和职责...">为用户提供准确的产品咨询服务，包括产品特性、使用方法、常见问题解答等，确保用户获得满意的服务体验。</textarea>
+                        <textarea class="form-input form-textarea" id="mainGoal" placeholder="描述Agent的主要目标和职责...">为开发团队提供智能代码审查服务，包括代码质量检查、安全漏洞检测、性能优化建议等，帮助提升代码质量和开发效率。</textarea>
                     </div>
                 </div>
 
@@ -401,15 +401,19 @@
                     </h3>
                     <ul class="condition-list" id="successConditions">
                         <li class="condition-item">
-                            <span class="condition-text">回答准确率 > 90%</span>
+                            <span class="condition-text">代码审查准确率 > 95%</span>
                             <button class="btn-remove" onclick="removeCondition(this)">删除</button>
                         </li>
                         <li class="condition-item">
-                            <span class="condition-text">响应时间 < 3秒</span>
+                            <span class="condition-text">响应时间 < 5秒</span>
                             <button class="btn-remove" onclick="removeCondition(this)">删除</button>
                         </li>
                         <li class="condition-item">
-                            <span class="condition-text">用户满意度 > 85%</span>
+                            <span class="condition-text">漏洞检出率 > 90%</span>
+                            <button class="btn-remove" onclick="removeCondition(this)">删除</button>
+                        </li>
+                        <li class="condition-item">
+                            <span class="condition-text">误报率 < 5%</span>
                             <button class="btn-remove" onclick="removeCondition(this)">删除</button>
                         </li>
                     </ul>
@@ -431,8 +435,8 @@
                 <div class="constraint-toggle" onclick="toggleConstraint(this)">
                     <div class="constraint-info">
                         <div>
-                            <div class="constraint-title">不能提供价格信息</div>
-                            <div class="constraint-desc">避免涉及产品价格相关的咨询</div>
+                            <div class="constraint-title">仅审查代码质量</div>
+                            <div class="constraint-desc">不涉及业务逻辑判断，仅关注代码质量</div>
                         </div>
                     </div>
                     <div class="toggle-switch active"></div>
@@ -441,8 +445,8 @@
                 <div class="constraint-toggle" onclick="toggleConstraint(this)">
                     <div class="constraint-info">
                         <div>
-                            <div class="constraint-title">不能承诺退换货</div>
-                            <div class="constraint-desc">不提供退换货政策承诺</div>
+                            <div class="constraint-title">不修改代码</div>
+                            <div class="constraint-desc">只提供建议，不直接修改代码</div>
                         </div>
                     </div>
                     <div class="toggle-switch active"></div>
@@ -451,21 +455,21 @@
                 <div class="constraint-toggle" onclick="toggleConstraint(this)">
                     <div class="constraint-info">
                         <div>
-                            <div class="constraint-title">仅提供公开信息</div>
-                            <div class="constraint-desc">只基于公开的产品信息进行回答</div>
+                            <div class="constraint-title">遵循编码规范</div>
+                            <div class="constraint-desc">基于公司编码规范和最佳实践</div>
                         </div>
                     </div>
-                    <div class="toggle-switch"></div>
+                    <div class="toggle-switch active"></div>
                 </div>
 
                 <div class="constraint-toggle" onclick="toggleConstraint(this)">
                     <div class="constraint-info">
                         <div>
-                            <div class="constraint-title">工作时间限制</div>
-                            <div class="constraint-desc">仅在正常工作时间内提供服务</div>
+                            <div class="constraint-title">保护代码隐私</div>
+                            <div class="constraint-desc">不泄露敏感代码信息</div>
                         </div>
                     </div>
-                    <div class="toggle-switch"></div>
+                    <div class="toggle-switch active"></div>
                 </div>
             </div>
 

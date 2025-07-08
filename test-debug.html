@@ -569,7 +569,7 @@
                                 <i class="fas fa-robot"></i>
                             </div>
                             <div class="message-content">
-                                你好！我是客服助手，有什么可以帮助您的吗？
+                                你好！我是代码审查助手，可以帮你分析代码质量、安全性和性能问题。请上传代码或描述你的需求。
                                 <div class="message-time">14:30:25</div>
                             </div>
                         </div>
@@ -579,8 +579,7 @@
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="message-content">
-                                这个产品怎么样？
-                                <div class="message-time">14:30:45</div>
+                                帮我检查这段代码有什么问题
                             </div>
                         </div>
 
@@ -589,12 +588,17 @@
                                 <i class="fas fa-robot"></i>
                             </div>
                             <div class="message-content">
-                                这是一款非常优质的产品，具有以下特点：<br><br>
-                                • 高性能处理器，运行流畅<br>
-                                • 长续航电池，支持快速充电<br>
-                                • 高清显示屏，色彩鲜艳<br>
-                                • 多种实用功能，满足日常需求<br><br>
-                                如果您需要了解更详细的信息，我可以为您查询产品手册。
+                                我已经分析了你的代码，发现以下问题：<br><br>
+                                🔴 **安全问题**：<br>
+                                • 第15行：存在SQL注入风险，建议使用参数化查询<br>
+                                • 第28行：密码未加密存储<br><br>
+                                🟡 **性能问题**：<br>
+                                • 第42行：循环中执行数据库查询，建议批量处理<br>
+                                • 第55行：缺少索引优化<br><br>
+                                🟢 **代码质量**：<br>
+                                • 第12行：变量命名不符合规范<br>
+                                • 第35行：缺少异常处理<br><br>
+                                建议优先修复安全问题，然后优化性能。
                                 <div class="message-time">14:30:52</div>
                             </div>
                         </div>
@@ -644,25 +648,25 @@
                         <!-- 执行日志 -->
                         <div id="logsTab" class="tab-content">
                             <div class="log-entry log-info">
-                                [INFO] 2024-01-20 14:30:25 - Agent启动成功
+                                [INFO] 2024-01-20 14:30:25 - 代码审查Agent启动成功
                             </div>
                             <div class="log-entry log-success">
-                                [SUCCESS] 2024-01-20 14:30:45 - 用户输入: "这个产品怎么样？"
+                                [SUCCESS] 2024-01-20 14:30:45 - 用户输入: "帮我检查这段代码有什么问题"
                             </div>
                             <div class="log-entry log-info">
-                                [INFO] 2024-01-20 14:30:47 - 调用知识库搜索
+                                [INFO] 2024-01-20 14:30:47 - 开始代码静态分析
                             </div>
                             <div class="log-entry log-success">
-                                [SUCCESS] 2024-01-20 14:30:48 - 找到相关产品信息
+                                [SUCCESS] 2024-01-20 14:30:48 - 发现3个安全问题，2个性能问题
                             </div>
                             <div class="log-entry log-info">
-                                [INFO] 2024-01-20 14:30:50 - 生成回复内容
+                                [INFO] 2024-01-20 14:30:50 - 生成代码审查报告
                             </div>
                             <div class="log-entry log-success">
-                                [SUCCESS] 2024-01-20 14:30:52 - 回复发送成功
+                                [SUCCESS] 2024-01-20 14:30:52 - 审查报告发送成功
                             </div>
                             <div class="log-entry log-info">
-                                [INFO] 2024-01-20 14:30:52 - 响应时间: 2.3秒
+                                [INFO] 2024-01-20 14:30:52 - 响应时间: 4.2秒
                             </div>
                         </div>
 
@@ -670,25 +674,25 @@
                         <div id="errorsTab" class="tab-content" style="display: none;">
                             <div class="error-item">
                                 <div class="error-header">
-                                    <div class="error-type">API连接超时</div>
+                                    <div class="error-type">GitLab API连接失败</div>
                                     <div class="error-time">2024-01-20 14:25:30</div>
                                 </div>
-                                <div class="error-message">无法连接到库存查询API</div>
-                                <div class="error-stack">Error: Request timeout
-at fetchInventory (api.js:45)
-at processRequest (agent.js:123)
+                                <div class="error-message">无法连接到GitLab API获取代码仓库信息</div>
+                                <div class="error-stack">Error: Connection timeout
+at fetchGitLabData (gitlab.js:45)
+at processCodeReview (review.js:123)
 at async handleMessage (main.js:67)</div>
                             </div>
 
                             <div class="error-item">
                                 <div class="error-header">
-                                    <div class="error-type">模型调用失败</div>
+                                    <div class="error-type">SonarQube分析失败</div>
                                     <div class="error-time">2024-01-20 14:20:15</div>
                                 </div>
-                                <div class="error-message">GPT-4 API调用失败</div>
-                                <div class="error-stack">Error: Rate limit exceeded
-at callGPT4 (model.js:89)
-at generateResponse (agent.js:156)
+                                <div class="error-message">SonarQube代码质量分析服务不可用</div>
+                                <div class="error-stack">Error: Service unavailable
+at analyzeCodeQuality (sonar.js:89)
+at generateReport (report.js:156)
 at async processMessage (main.js:78)</div>
                             </div>
                         </div>
@@ -772,12 +776,12 @@ at async processMessage (main.js:78)</div>
             // 模拟Agent回复
             setTimeout(() => {
                 hideTypingIndicator();
-                const responses = [
-                    "根据我的了解，这个产品具有很好的性能和用户体验。",
-                    "我可以为您查询更详细的产品信息，请稍等。",
-                    "这是一个热门产品，用户评价很高。",
-                    "让我为您搜索相关的产品资料。"
-                ];
+                            const responses = [
+                "我发现代码中存在几个安全问题，建议优先修复SQL注入漏洞。",
+                "代码性能可以进一步优化，特别是在数据库查询方面。",
+                "代码质量整体不错，但有一些命名规范需要调整。",
+                "让我为您生成详细的代码审查报告。"
+            ];
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 addMessage(randomResponse, 'assistant');
                 
