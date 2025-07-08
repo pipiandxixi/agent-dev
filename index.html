@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent开发平台 - 项目管理</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #718096;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .project-template {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-draft {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .project-meta {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .empty-state p {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-robot"></i>
+                Agent开发平台
+            </h1>
+            <p>快速搭建、定制、部署AI Agent，支持多Agent协作</p>
+        </div>
+
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab active">
+                <i class="fas fa-home"></i> 项目管理
+            </a>
+            <a href="goal-config.html" class="nav-tab">
+                <i class="fas fa-bullseye"></i> 目标配置
+            </a>
+            <a href="capability-config.html" class="nav-tab">
+                <i class="fas fa-cogs"></i> 能力配置
+            </a>
+            <a href="test-debug.html" class="nav-tab">
+                <i class="fas fa-bug"></i> 测试调试
+            </a>
+            <a href="deploy-run.html" class="nav-tab">
+                <i class="fas fa-rocket"></i> 部署运行
+            </a>
+            <a href="statistics.html" class="nav-tab">
+                <i class="fas fa-chart-bar"></i> 使用统计
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="section-header">
+                <h2 class="section-title">我的项目</h2>
+                <button class="btn-primary" onclick="createProject()">
+                    <i class="fas fa-plus"></i>
+                    创建新项目
+                </button>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">客服助手</div>
+                            <div class="project-template">customer_service</div>
+                        </div>
+                        <div class="project-status status-active">运行中</div>
+                    </div>
+                    <div class="project-meta">
+                        <i class="fas fa-calendar"></i> 创建于 2024-01-01
+                    </div>
+                    <div class="project-actions">
+                        <a href="goal-config.html" class="btn-secondary">配置</a>
+                        <a href="test-debug.html" class="btn-secondary">测试</a>
+                        <a href="deploy-run.html" class="btn-secondary">部署</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">数据分析助手</div>
+                            <div class="project-template">data_analysis</div>
+                        </div>
+                        <div class="project-status status-draft">草稿</div>
+                    </div>
+                    <div class="project-meta">
+                        <i class="fas fa-calendar"></i> 创建于 2024-01-15
+                    </div>
+                    <div class="project-actions">
+                        <a href="goal-config.html" class="btn-secondary">配置</a>
+                        <a href="test-debug.html" class="btn-secondary">测试</a>
+                        <a href="deploy-run.html" class="btn-secondary">部署</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">文档助手</div>
+                            <div class="project-template">document_assistant</div>
+                        </div>
+                        <div class="project-status status-active">运行中</div>
+                    </div>
+                    <div class="project-meta">
+                        <i class="fas fa-calendar"></i> 创建于 2024-01-20
+                    </div>
+                    <div class="project-actions">
+                        <a href="goal-config.html" class="btn-secondary">配置</a>
+                        <a href="test-debug.html" class="btn-secondary">测试</a>
+                        <a href="deploy-run.html" class="btn-secondary">部署</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">平台统计</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">总项目数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">运行中</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1,250</div>
+                    <div class="stat-label">今日请求</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98.5%</div>
+                    <div class="stat-label">成功率</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createProject() {
+            // 这里可以添加创建项目的逻辑
+            alert('创建项目功能待实现');
+        }
+    </script>
+</body>
+</html> 

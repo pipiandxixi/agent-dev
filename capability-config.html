@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent开发平台 - 能力配置</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #718096;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #4a5568;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f7fafc;
+        }
+
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .decision-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .perception-icon {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .action-icon {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .module-desc {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 500;
+            color: #667eea;
+        }
+
+        .rules-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .rule-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .rule-condition, .rule-action {
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .btn-remove {
+            background: #fed7d7;
+            color: #742a2a;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-remove:hover {
+            background: #feb2b2;
+        }
+
+        .btn-add {
+            background: #c6f6d5;
+            color: #22543d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add:hover {
+            background: #9ae6b4;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            color: #cbd5e0;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        .file-list {
+            margin-top: 15px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 8px;
+        }
+
+        .file-icon {
+            color: #667eea;
+        }
+
+        .file-name {
+            flex: 1;
+            color: #4a5568;
+        }
+
+        .file-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-processed {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-processing {
+            background: #fef5e7;
+            color: #744210;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .tool-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tool-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .api-list {
+            list-style: none;
+        }
+
+        .api-item {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .api-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .api-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .api-url {
+            color: #718096;
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-cogs"></i>
+                能力配置
+            </h1>
+            <p>配置Agent的决策、感知和行动能力</p>
+        </div>
+
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab">
+                <i class="fas fa-home"></i> 项目管理
+            </a>
+            <a href="goal-config.html" class="nav-tab">
+                <i class="fas fa-bullseye"></i> 目标配置
+            </a>
+            <a href="capability-config.html" class="nav-tab active">
+                <i class="fas fa-cogs"></i> 能力配置
+            </a>
+            <a href="test-debug.html" class="nav-tab">
+                <i class="fas fa-bug"></i> 测试调试
+            </a>
+            <a href="deploy-run.html" class="nav-tab">
+                <i class="fas fa-rocket"></i> 部署运行
+            </a>
+            <a href="statistics.html" class="nav-tab">
+                <i class="fas fa-chart-bar"></i> 使用统计
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-cogs"></i>
+                    能力配置
+                </h2>
+                <button class="btn-primary" onclick="saveConfig()">
+                    <i class="fas fa-save"></i>
+                    保存配置
+                </button>
+            </div>
+
+            <div class="modules-grid">
+                <!-- 决策模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon decision-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <div class="module-title">决策模块</div>
+                            <div class="module-desc">配置大模型和决策逻辑</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">选择模型</label>
+                        <select class="form-select" id="modelSelect">
+                            <option value="gpt-4">GPT-4</option>
+                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                            <option value="claude-3">Claude-3</option>
+                            <option value="gemini-pro">Gemini Pro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">温度 (Temperature)</label>
+                        <div class="slider-container">
+                            <input type="range" class="slider" id="temperature" min="0" max="2" step="0.1" value="0.7">
+                            <span class="slider-value" id="temperatureValue">0.7</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">最大令牌数</label>
+                        <div class="slider-container">
+                            <input type="range" class="slider" id="maxTokens" min="100" max="4000" step="100" value="1000">
+                            <span class="slider-value" id="maxTokensValue">1000</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">系统提示词</label>
+                        <textarea class="form-input form-textarea" id="systemPrompt" placeholder="输入系统提示词...">你是一个专业的客服助手，负责为用户提供准确的产品咨询服务。请保持友好、专业的语气，确保回答准确且有帮助。</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">决策规则</label>
+                        <ul class="rules-list" id="decisionRules">
+                            <li class="rule-item">
+                                <div class="rule-content">
+                                    <div class="rule-condition">用户询问价格</div>
+                                    <div class="rule-action">转人工客服</div>
+                                </div>
+                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
+                            </li>
+                            <li class="rule-item">
+                                <div class="rule-content">
+                                    <div class="rule-condition">用户情绪激动</div>
+                                    <div class="rule-action">安抚并转人工</div>
+                                </div>
+                                <button class="btn-remove" onclick="removeRule(this)">删除</button>
+                            </li>
+                        </ul>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                            <input type="text" class="form-input" id="newCondition" placeholder="条件">
+                            <input type="text" class="form-input" id="newAction" placeholder="动作">
+                        </div>
+                        <button class="btn-add" onclick="addRule()">
+                            <i class="fas fa-plus"></i>
+                            添加规则
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 感知模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon perception-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div>
+                            <div class="module-title">感知模块</div>
+                            <div class="module-desc">配置数据源和知识库</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">文档上传</label>
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">点击或拖拽文件到此处上传</div>
+                            <div class="upload-hint">支持 PDF, DOC, TXT 格式</div>
+                        </div>
+                        <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload(event)">
+                        
+                        <div class="file-list" id="fileList">
+                            <div class="file-item">
+                                <i class="fas fa-file-pdf file-icon"></i>
+                                <span class="file-name">产品手册.pdf</span>
+                                <span class="file-status status-processed">已处理</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fas fa-file-word file-icon"></i>
+                                <span class="file-name">FAQ文档.docx</span>
+                                <span class="file-status status-processing">处理中</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">数据库连接</label>
+                        <select class="form-select" id="dbType">
+                            <option value="mysql">MySQL</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="mongodb">MongoDB</option>
+                            <option value="sqlite">SQLite</option>
+                        </select>
+                        <input type="text" class="form-input" style="margin-top: 10px;" placeholder="主机地址" value="localhost">
+                        <input type="text" class="form-input" style="margin-top: 10px;" placeholder="数据库名" value="products">
+                        <input type="text" class="form-input" style="margin-top: 10px;" placeholder="用户名">
+                        <input type="password" class="form-input" style="margin-top: 10px;" placeholder="密码">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">API数据源</label>
+                        <ul class="api-list" id="apiList">
+                            <li class="api-item">
+                                <div class="api-header">
+                                    <div class="api-name">库存查询</div>
+                                    <button class="btn-remove" onclick="removeApi(this)">删除</button>
+                                </div>
+                                <div class="api-url">https://api.inventory.com/stock</div>
+                            </li>
+                            <li class="api-item">
+                                <div class="api-header">
+                                    <div class="api-name">用户信息</div>
+                                    <button class="btn-remove" onclick="removeApi(this)">删除</button>
+                                </div>
+                                <div class="api-url">https://api.users.com/profile</div>
+                            </li>
+                        </ul>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                            <input type="text" class="form-input" id="newApiName" placeholder="API名称">
+                            <input type="text" class="form-input" id="newApiUrl" placeholder="API地址">
+                        </div>
+                        <button class="btn-add" onclick="addApi()">
+                            <i class="fas fa-plus"></i>
+                            添加API
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 行动模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon action-icon">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <div>
+                            <div class="module-title">行动模块</div>
+                            <div class="module-desc">配置工具和外部接口</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">MCP工具</label>
+                        <div class="tool-grid">
+                            <div class="tool-item selected">
+                                <input type="checkbox" class="tool-checkbox" checked>
+                                <i class="fas fa-folder"></i>
+                                <span>文件系统</span>
+                            </div>
+                            <div class="tool-item selected">
+                                <input type="checkbox" class="tool-checkbox" checked>
+                                <i class="fas fa-database"></i>
+                                <span>数据库</span>
+                            </div>
+                            <div class="tool-item">
+                                <input type="checkbox" class="tool-checkbox">
+                                <i class="fab fa-git-alt"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="tool-item">
+                                <input type="checkbox" class="tool-checkbox">
+                                <i class="fas fa-search"></i>
+                                <span>搜索</span>
+                            </div>
+                            <div class="tool-item">
+                                <input type="checkbox" class="tool-checkbox">
+                                <i class="fas fa-calculator"></i>
+                                <span>计算器</span>
+                            </div>
+                            <div class="tool-item">
+                                <input type="checkbox" class="tool-checkbox">
+                                <i class="fas fa-globe"></i>
+                                <span>网络</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">外部API</label>
+                        <ul class="api-list" id="externalApiList">
+                            <li class="api-item">
+                                <div class="api-header">
+                                    <div class="api-name">发送邮件</div>
+                                    <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
+                                </div>
+                                <div class="api-url">https://api.sendgrid.com/v3/mail/send</div>
+                            </li>
+                        </ul>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                            <input type="text" class="form-input" id="newExternalApiName" placeholder="API名称">
+                            <input type="text" class="form-input" id="newExternalApiUrl" placeholder="API地址">
+                        </div>
+                        <button class="btn-add" onclick="addExternalApi()">
+                            <i class="fas fa-plus"></i>
+                            添加API
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">执行配置</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <label class="form-label">超时时间 (秒)</label>
+                                <input type="number" class="form-input" value="30" min="1" max="300">
+                            </div>
+                            <div>
+                                <label class="form-label">重试次数</label>
+                                <input type="number" class="form-input" value="3" min="0" max="10">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn-secondary" onclick="resetConfig()">
+                    <i class="fas fa-undo"></i>
+                    重置
+                </button>
+                <button class="btn-primary" onclick="saveConfig()">
+                    <i class="fas fa-save"></i>
+                    保存配置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 滑块值更新
+        document.getElementById('temperature').addEventListener('input', function() {
+            document.getElementById('temperatureValue').textContent = this.value;
+        });
+
+        document.getElementById('maxTokens').addEventListener('input', function() {
+            document.getElementById('maxTokensValue').textContent = this.value;
+        });
+
+        // 文件上传处理
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            const fileList = document.getElementById('fileList');
+            
+            Array.from(files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <i class="fas fa-file file-icon"></i>
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-status status-processing">处理中</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        // 拖拽上传
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            const fileInput = document.getElementById('fileInput');
+            fileInput.files = files;
+            handleFileUpload({ target: { files: files } });
+        });
+
+        // 工具选择
+        document.querySelectorAll('.tool-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const checkbox = this.querySelector('.tool-checkbox');
+                checkbox.checked = !checkbox.checked;
+                this.classList.toggle('selected');
+            });
+        });
+
+        // 规则管理
+        function addRule() {
+            const condition = document.getElementById('newCondition').value.trim();
+            const action = document.getElementById('newAction').value.trim();
+            
+            if (condition && action) {
+                const rulesList = document.getElementById('decisionRules');
+                const li = document.createElement('li');
+                li.className = 'rule-item';
+                li.innerHTML = `
+                    <div class="rule-content">
+                        <div class="rule-condition">${condition}</div>
+                        <div class="rule-action">${action}</div>
+                    </div>
+                    <button class="btn-remove" onclick="removeRule(this)">删除</button>
+                `;
+                rulesList.appendChild(li);
+                
+                document.getElementById('newCondition').value = '';
+                document.getElementById('newAction').value = '';
+            }
+        }
+
+        function removeRule(button) {
+            button.parentElement.remove();
+        }
+
+        // API管理
+        function addApi() {
+            const name = document.getElementById('newApiName').value.trim();
+            const url = document.getElementById('newApiUrl').value.trim();
+            
+            if (name && url) {
+                const apiList = document.getElementById('apiList');
+                const li = document.createElement('li');
+                li.className = 'api-item';
+                li.innerHTML = `
+                    <div class="api-header">
+                        <div class="api-name">${name}</div>
+                        <button class="btn-remove" onclick="removeApi(this)">删除</button>
+                    </div>
+                    <div class="api-url">${url}</div>
+                `;
+                apiList.appendChild(li);
+                
+                document.getElementById('newApiName').value = '';
+                document.getElementById('newApiUrl').value = '';
+            }
+        }
+
+        function removeApi(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        function addExternalApi() {
+            const name = document.getElementById('newExternalApiName').value.trim();
+            const url = document.getElementById('newExternalApiUrl').value.trim();
+            
+            if (name && url) {
+                const apiList = document.getElementById('externalApiList');
+                const li = document.createElement('li');
+                li.className = 'api-item';
+                li.innerHTML = `
+                    <div class="api-header">
+                        <div class="api-name">${name}</div>
+                        <button class="btn-remove" onclick="removeExternalApi(this)">删除</button>
+                    </div>
+                    <div class="api-url">${url}</div>
+                `;
+                apiList.appendChild(li);
+                
+                document.getElementById('newExternalApiName').value = '';
+                document.getElementById('newExternalApiUrl').value = '';
+            }
+        }
+
+        function removeExternalApi(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        // 保存和重置
+        function saveConfig() {
+            alert('配置已保存！');
+        }
+
+        function resetConfig() {
+            if (confirm('确定要重置所有配置吗？')) {
+                location.reload();
+            }
+        }
+
+        // 回车键添加规则
+        document.getElementById('newCondition').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('newAction').focus();
+            }
+        });
+
+        document.getElementById('newAction').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addRule();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent开发平台 - 使用统计</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #718096;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #4a5568;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .filter-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            color: #4a5568;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-input {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .icon-blue {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .icon-green {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .icon-orange {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .icon-purple {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+        }
+
+        .stat-info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .change-positive {
+            color: #38a169;
+        }
+
+        .change-negative {
+            color: #e53e3e;
+        }
+
+        .change-neutral {
+            color: #718096;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f7fafc;
+        }
+
+        .chart-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-size: 1.1rem;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .chart-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+
+        .chart-placeholder div {
+            text-align: center;
+        }
+
+        .usage-table {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f7fafc;
+        }
+
+        .table-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stats-table th,
+        .stats-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .stats-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .stats-table td {
+            color: #2d3748;
+        }
+
+        .stats-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-inactive {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .trend-up {
+            color: #38a169;
+        }
+
+        .trend-down {
+            color: #e53e3e;
+        }
+
+        .trend-stable {
+            color: #718096;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .mini-chart {
+            width: 100%;
+            height: 60px;
+            background: #f7fafc;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .chart-points {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #667eea;
+            border-radius: 50%;
+            bottom: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-chart-bar"></i>
+                使用统计
+            </h1>
+            <p>查看Agent的使用情况、性能指标和趋势分析</p>
+        </div>
+
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab">
+                <i class="fas fa-home"></i> 项目管理
+            </a>
+            <a href="goal-config.html" class="nav-tab">
+                <i class="fas fa-bullseye"></i> 目标配置
+            </a>
+            <a href="capability-config.html" class="nav-tab">
+                <i class="fas fa-cogs"></i> 能力配置
+            </a>
+            <a href="test-debug.html" class="nav-tab">
+                <i class="fas fa-bug"></i> 测试调试
+            </a>
+            <a href="deploy-run.html" class="nav-tab">
+                <i class="fas fa-rocket"></i> 部署运行
+            </a>
+            <a href="statistics.html" class="nav-tab active">
+                <i class="fas fa-chart-bar"></i> 使用统计
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-bar"></i>
+                    使用统计
+                </h2>
+                <button class="btn-primary" onclick="exportReport()">
+                    <i class="fas fa-download"></i>
+                    导出报告
+                </button>
+            </div>
+
+            <!-- 筛选栏 -->
+            <div class="filter-bar">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Agent:</label>
+                        <select class="filter-select" id="agentFilter">
+                            <option value="all">全部Agent</option>
+                            <option value="customer_service">客服助手</option>
+                            <option value="data_analysis">数据分析助手</option>
+                            <option value="document_assistant">文档助手</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">时间范围:</label>
+                        <select class="filter-select" id="timeFilter">
+                            <option value="today">今天</option>
+                            <option value="week" selected>本周</option>
+                            <option value="month">本月</option>
+                            <option value="quarter">本季度</option>
+                            <option value="year">本年</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">自定义:</label>
+                        <div class="date-range">
+                            <input type="date" class="date-input" id="startDate" value="2024-01-15">
+                            <span>至</span>
+                            <input type="date" class="date-input" id="endDate" value="2024-01-20">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                        应用筛选
+                    </button>
+                </div>
+            </div>
+
+            <!-- 统计概览 -->
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon icon-blue">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>总请求数</h3>
+                            <p>所有Agent的请求总数</p>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="totalRequests">12,450</div>
+                    <div class="stat-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+15.3%</span>
+                        <span>较上周</span>
+                    </div>
+                    <div class="mini-chart">
+                        <div class="chart-line"></div>
+                        <div class="chart-points">
+                            <div class="chart-point" style="left: 10%; bottom: 20%;"></div>
+                            <div class="chart-point" style="left: 25%; bottom: 35%;"></div>
+                            <div class="chart-point" style="left: 40%; bottom: 25%;"></div>
+                            <div class="chart-point" style="left: 55%; bottom: 45%;"></div>
+                            <div class="chart-point" style="left: 70%; bottom: 30%;"></div>
+                            <div class="chart-point" style="left: 85%; bottom: 50%;"></div>
+                            <div class="chart-point" style="left: 95%; bottom: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon icon-green">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>平均响应时间</h3>
+                            <p>所有请求的平均响应时间</p>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="avgResponseTime">1.8s</div>
+                    <div class="stat-change change-negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>-0.3s</span>
+                        <span>较上周</span>
+                    </div>
+                    <div class="mini-chart">
+                        <div class="chart-line"></div>
+                        <div class="chart-points">
+                            <div class="chart-point" style="left: 10%; bottom: 60%;"></div>
+                            <div class="chart-point" style="left: 25%; bottom: 45%;"></div>
+                            <div class="chart-point" style="left: 40%; bottom: 55%;"></div>
+                            <div class="chart-point" style="left: 55%; bottom: 35%;"></div>
+                            <div class="chart-point" style="left: 70%; bottom: 40%;"></div>
+                            <div class="chart-point" style="left: 85%; bottom: 30%;"></div>
+                            <div class="chart-point" style="left: 95%; bottom: 35%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon icon-orange">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>成功率</h3>
+                            <p>成功处理的请求比例</p>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="successRate">98.5%</div>
+                    <div class="stat-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+0.5%</span>
+                        <span>较上周</span>
+                    </div>
+                    <div class="mini-chart">
+                        <div class="chart-line"></div>
+                        <div class="chart-points">
+                            <div class="chart-point" style="left: 10%; bottom: 95%;"></div>
+                            <div class="chart-point" style="left: 25%; bottom: 97%;"></div>
+                            <div class="chart-point" style="left: 40%; bottom: 96%;"></div>
+                            <div class="chart-point" style="left: 55%; bottom: 98%;"></div>
+                            <div class="chart-point" style="left: 70%; bottom: 97%;"></div>
+                            <div class="chart-point" style="left: 85%; bottom: 99%;"></div>
+                            <div class="chart-point" style="left: 95%; bottom: 98%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon icon-purple">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>活跃用户</h3>
+                            <p>使用Agent的独立用户数</p>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="activeUsers">1,250</div>
+                    <div class="stat-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+8.2%</span>
+                        <span>较上周</span>
+                    </div>
+                    <div class="mini-chart">
+                        <div class="chart-line"></div>
+                        <div class="chart-points">
+                            <div class="chart-point" style="left: 10%; bottom: 30%;"></div>
+                            <div class="chart-point" style="left: 25%; bottom: 40%;"></div>
+                            <div class="chart-point" style="left: 40%; bottom: 35%;"></div>
+                            <div class="chart-point" style="left: 55%; bottom: 50%;"></div>
+                            <div class="chart-point" style="left: 70%; bottom: 45%;"></div>
+                            <div class="chart-point" style="left: 85%; bottom: 55%;"></div>
+                            <div class="chart-point" style="left: 95%; bottom: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表区域 -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="chart-title">请求趋势</div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <div>
+                                <i class="fas fa-chart-line"></i>
+                                <div>请求量趋势图</div>
+                                <div style="font-size: 0.9rem; margin-top: 10px;">显示每日请求量变化</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="chart-title">Agent分布</div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <div>
+                                <i class="fas fa-chart-pie"></i>
+                                <div>Agent使用分布</div>
+                                <div style="font-size: 0.9rem; margin-top: 10px;">各Agent使用比例</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 详细统计表格 -->
+            <div class="usage-table">
+                <div class="table-header">
+                    <div class="table-icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <div class="table-title">详细统计</div>
+                </div>
+                <div class="table-container">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Agent名称</th>
+                                <th>状态</th>
+                                <th>请求数</th>
+                                <th>平均响应时间</th>
+                                <th>成功率</th>
+                                <th>错误数</th>
+                                <th>趋势</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>客服助手</td>
+                                <td><span class="status-badge status-active">运行中</span></td>
+                                <td>5,230</td>
+                                <td>1.5s</td>
+                                <td>99.2%</td>
+                                <td>42</td>
+                                <td>
+                                    <div class="trend-indicator trend-up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+12%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>数据分析助手</td>
+                                <td><span class="status-badge status-active">运行中</span></td>
+                                <td>3,890</td>
+                                <td>2.1s</td>
+                                <td>97.8%</td>
+                                <td>87</td>
+                                <td>
+                                    <div class="trend-indicator trend-up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+8%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>文档助手</td>
+                                <td><span class="status-badge status-active">运行中</span></td>
+                                <td>3,330</td>
+                                <td>1.9s</td>
+                                <td>98.5%</td>
+                                <td>50</td>
+                                <td>
+                                    <div class="trend-indicator trend-stable">
+                                        <i class="fas fa-minus"></i>
+                                        <span>0%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn-secondary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    刷新数据
+                </button>
+                <button class="btn-primary" onclick="exportReport()">
+                    <i class="fas fa-download"></i>
+                    导出报告
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 应用筛选
+        function applyFilters() {
+            const agent = document.getElementById('agentFilter').value;
+            const timeRange = document.getElementById('timeFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            console.log('应用筛选:', { agent, timeRange, startDate, endDate });
+            
+            // 这里可以添加实际的筛选逻辑
+            // 模拟数据更新
+            updateStats();
+        }
+
+        // 更新统计数据
+        function updateStats() {
+            // 模拟数据更新
+            const requests = Math.floor(Math.random() * 5000) + 10000;
+            const responseTime = (Math.random() * 1 + 1).toFixed(1);
+            const successRate = (Math.random() * 2 + 97).toFixed(1);
+            const users = Math.floor(Math.random() * 500) + 1000;
+            
+            document.getElementById('totalRequests').textContent = requests.toLocaleString();
+            document.getElementById('avgResponseTime').textContent = responseTime + 's';
+            document.getElementById('successRate').textContent = successRate + '%';
+            document.getElementById('activeUsers').textContent = users.toLocaleString();
+        }
+
+        // 刷新数据
+        function refreshData() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 刷新中...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                updateStats();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // 显示刷新成功提示
+                showNotification('数据已刷新', 'success');
+            }, 1500);
+        }
+
+        // 导出报告
+        function exportReport() {
+            const reportData = {
+                totalRequests: document.getElementById('totalRequests').textContent,
+                avgResponseTime: document.getElementById('avgResponseTime').textContent,
+                successRate: document.getElementById('successRate').textContent,
+                activeUsers: document.getElementById('activeUsers').textContent,
+                exportTime: new Date().toISOString(),
+                filters: {
+                    agent: document.getElementById('agentFilter').value,
+                    timeRange: document.getElementById('timeFilter').value,
+                    startDate: document.getElementById('startDate').value,
+                    endDate: document.getElementById('endDate').value
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `agent-statistics-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('报告已导出', 'success');
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#38a169';
+            } else {
+                notification.style.background = '#e53e3e';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 时间范围选择器变化
+        document.getElementById('timeFilter').addEventListener('change', function() {
+            const timeRange = this.value;
+            const today = new Date();
+            const startDate = document.getElementById('startDate');
+            const endDate = document.getElementById('endDate');
+            
+            switch(timeRange) {
+                case 'today':
+                    startDate.value = endDate.value = today.toISOString().split('T')[0];
+                    break;
+                case 'week':
+                    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    startDate.value = weekAgo.toISOString().split('T')[0];
+                    endDate.value = today.toISOString().split('T')[0];
+                    break;
+                case 'month':
+                    const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+                    startDate.value = monthAgo.toISOString().split('T')[0];
+                    endDate.value = today.toISOString().split('T')[0];
+                    break;
+                case 'quarter':
+                    const quarterAgo = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3, 1);
+                    startDate.value = quarterAgo.toISOString().split('T')[0];
+                    endDate.value = today.toISOString().split('T')[0];
+                    break;
+                case 'year':
+                    const yearAgo = new Date(today.getFullYear(), 0, 1);
+                    startDate.value = yearAgo.toISOString().split('T')[0];
+                    endDate.value = today.toISOString().split('T')[0];
+                    break;
+            }
+        });
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认日期范围为本周
+            const today = new Date();
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            document.getElementById('startDate').value = weekAgo.toISOString().split('T')[0];
+            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html> 
